@@ -7,7 +7,7 @@ packages = ["src/baseball_stats_python"]
 
 [project]
 name = "baseball-stats-python"
-version = "0.0.3"
+version = "0.0.3.1"
 authors = [{ name = "Li-Hsuan Hsieh", email = "ss77995ss@gmail.com" }]
 description = "A python pacakge for getting baseball stats"
 readme = "README.md"
