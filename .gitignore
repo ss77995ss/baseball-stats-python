@@ -1,0 +1,6 @@
+# Ignore all cache files
+__pycache__/
+*.pyc
+
+# Ignore auto-generated dist directory
+dist/
