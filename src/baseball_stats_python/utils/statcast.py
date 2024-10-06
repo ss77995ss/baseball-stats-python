@@ -1,10 +1,13 @@
+from ..enums.statcast import GameType, Month, MlbTeam
+
+
 CURRENT_SEASON = 2024
 START_SEASON = 2008
 STATCAST_START_SEASON = 2015
 
-ALL_SEASONS = [str(year) for year in range(START_SEASON, CURRENT_SEASON)]
+ALL_SEASONS = [str(year) for year in range(START_SEASON, CURRENT_SEASON + 1)]
 STATCAST_SEASONS = [str(year) for year in range(
-    STATCAST_START_SEASON, CURRENT_SEASON)]
+    STATCAST_START_SEASON, CURRENT_SEASON + 1)]
 
 
 def get_season_param_str(season: str | list[str]) -> str:
@@ -13,7 +16,7 @@ def get_season_param_str(season: str | list[str]) -> str:
 
     if (type(season) == list):
         if any(season not in ALL_SEASONS for season in season):
-            raise ValueError(f"Invalid seasons: {" | ".join(season)}")
+            raise ValueError(f"Invalid seasons: {'|'.join(season)}")
         return '|'.join(season)
 
     if (season == "all"):
@@ -27,22 +30,62 @@ def get_season_param_str(season: str | list[str]) -> str:
     return season
 
 
-GAME_TYPES = ["R", "PO", "F", "D", "L", "W", "S", "A"]
-
-
-def get_game_type_param_str(game_type: str | list[str]) -> str:
-    if (type(game_type) != str and type(game_type) != list):
+def get_game_type_param_str(game_type: str | GameType | list[str | GameType]) -> str:
+    if (type(game_type) != str and type(game_type) != list and game_type not in GameType):
         raise ValueError(f"Invalid type for game_type: {game_type}")
 
     if (type(game_type) == list):
-        if any(game_type not in GAME_TYPES for game_type in game_type):
-            raise ValueError(f"Invalid game types: {" | ".join(game_type)}")
-        return f"{'|'.join(game_type)}|"
+        str_game_type = [str(game_type) for game_type in game_type]
+        if any(not GameType.has_value(game_type) for game_type in str_game_type):
+            raise ValueError(f"Invalid game types: {'|'.join(str_game_type)}")
+        return f"{'|'.join(str_game_type)}|"
 
     if (game_type == "all"):
-        return f"{'|'.join(GAME_TYPES)}|"
+        return f"{GameType.get_all()}|"
 
-    if (game_type not in GAME_TYPES):
+    if (not GameType.has_value(game_type)):
         raise ValueError(f"Invalid game type: {game_type}")
 
     return f"{game_type}|"
+
+
+def get_month_param_str(month: str | Month | list[str | Month]) -> str:
+    if (type(month) != str and type(month) != list and month not in Month):
+        raise ValueError(f"Invalid type for month: {type(month)}")
+
+    if (type(month) == list):
+        str_month = [str(month) for month in month]
+        if any(not Month.has_value(month) for month in str_month):
+            raise ValueError(f"Invalid months: {'|'.join(str_month)}")
+        return f"{'|'.join(str_month)}|"
+
+    if (month == ""):
+        return ""
+    if (month == "all"):
+        return f"{Month.get_all()}|"
+
+    if (not Month.has_value(str(month))):
+        raise ValueError(f"Invalid month: {month}")
+
+    return f"{month}|"
+
+
+def get_team_param_str(team: str | MlbTeam | list[str | MlbTeam]) -> str:
+    if (type(team) != str and type(team) != list and team not in MlbTeam):
+        raise ValueError(f"Invalid type for team: {type(team)}")
+
+    if (type(team) == list):
+        str_team = [str(team) for team in team]
+        if any(not MlbTeam.has_value(team) for team in str_team):
+            raise ValueError(f"Invalid teams: {'|'.join(str_team)}")
+        return f"{'|'.join(str_team)}|"
+
+    if (team == ""):
+        return ""
+    if (team == "all"):
+        return f"{MlbTeam.get_all()}|"
+
+    if (not MlbTeam.has_value(team)):
+        raise ValueError(f"Invalid team: {team}")
+
+    return f"{team}|"
