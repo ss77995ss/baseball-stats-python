@@ -4,3 +4,9 @@ __pycache__/
 
 # Ignore auto-generated dist directory
 dist/
+
+# Ignore pytest cache
+.pytest_cache/
+
+# Ignore virtual environment
+.venv/
