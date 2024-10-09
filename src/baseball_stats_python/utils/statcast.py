@@ -12,13 +12,15 @@ STATCAST_SEASONS = [str(year) for year in range(
 
 def get_season_param_str(season: str | list[str]) -> str:
     if (type(season) != str and type(season) != list):
-        raise ValueError(f"Invalid type for season: {season}")
+        raise ValueError(f"Invalid type for season: {type(season)}")
 
     if (type(season) == list):
         if any(season not in ALL_SEASONS for season in season):
-            raise ValueError(f"Invalid seasons: {'|'.join(season)}")
+            raise ValueError(f"Invalid seasons: {season}")
         return '|'.join(season)
 
+    if (season == ""):
+        return str(CURRENT_SEASON)
     if (season == "all"):
         return '|'.join(ALL_SEASONS)
     if (season == "statcast"):
@@ -31,14 +33,17 @@ def get_season_param_str(season: str | list[str]) -> str:
 
 
 def get_game_type_param_str(game_type: str | GameType | list[str | GameType]) -> str:
-    if (type(game_type) != str and type(game_type) != list and game_type not in GameType):
-        raise ValueError(f"Invalid type for game_type: {game_type}")
+    if (type(game_type) != str and type(game_type) != list and not isinstance(game_type, GameType)):
+        raise ValueError(f"Invalid type for game_type: {type(game_type)}")
 
     if (type(game_type) == list):
         str_game_type = [str(game_type) for game_type in game_type]
         if any(not GameType.has_value(game_type) for game_type in str_game_type):
             raise ValueError(f"Invalid game types: {'|'.join(str_game_type)}")
         return f"{'|'.join(str_game_type)}|"
+
+    if (game_type == ""):
+        return "R|"
 
     if (game_type == "all"):
         return f"{GameType.get_all()}|"
@@ -50,7 +55,7 @@ def get_game_type_param_str(game_type: str | GameType | list[str | GameType]) ->
 
 
 def get_month_param_str(month: str | Month | list[str | Month]) -> str:
-    if (type(month) != str and type(month) != list and month not in Month):
+    if (type(month) != str and type(month) != list and not isinstance(month, Month)):
         raise ValueError(f"Invalid type for month: {type(month)}")
 
     if (type(month) == list):
@@ -61,17 +66,18 @@ def get_month_param_str(month: str | Month | list[str | Month]) -> str:
 
     if (month == ""):
         return ""
+
     if (month == "all"):
         return f"{Month.get_all()}|"
 
-    if (not Month.has_value(str(month))):
+    if (not Month.has_value(month)):
         raise ValueError(f"Invalid month: {month}")
 
     return f"{month}|"
 
 
 def get_team_param_str(team: str | MlbTeam | list[str | MlbTeam]) -> str:
-    if (type(team) != str and type(team) != list and team not in MlbTeam):
+    if (type(team) != str and type(team) != list and not isinstance(team, MlbTeam)):
         raise ValueError(f"Invalid type for team: {type(team)}")
 
     if (type(team) == list):
@@ -82,6 +88,7 @@ def get_team_param_str(team: str | MlbTeam | list[str | MlbTeam]) -> str:
 
     if (team == ""):
         return ""
+
     if (team == "all"):
         return f"{MlbTeam.get_all()}|"
 

@@ -21,3 +21,6 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/ss77995ss/baseball-stats-python"
 Issues = "https://github.com/ss77995ss/baseball-stats-python/issues"
+
+[tool.pytest.ini_options]
+pythonpath = [".", "src"]
