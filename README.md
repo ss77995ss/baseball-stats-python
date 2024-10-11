@@ -48,7 +48,7 @@ statcast_search(
 
 ## Contributing
 
-Welcome to open issues or pull requests to contribute to this project. Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for more details.
+Welcome to open issues or pull requests to contribute to this project. Please read [CONTRIBUTING.md](https://github.com/ss77995ss/baseball-stats-python/blob/main/CONTRIBUTING.md) for more details.
 
 ## License
 
