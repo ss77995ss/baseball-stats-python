@@ -46,7 +46,7 @@ def get_game_type_param_str(game_type: str | GameType | list[str | GameType]) ->
         return "R|"
 
     if (game_type == "all"):
-        return f"{GameType.get_all()}|"
+        return f"{GameType.join_all()}|"
 
     if (not GameType.has_value(game_type)):
         raise ValueError(f"Invalid game type: {game_type}")
@@ -68,7 +68,7 @@ def get_month_param_str(month: str | Month | list[str | Month]) -> str:
         return ""
 
     if (month == "all"):
-        return f"{Month.get_all()}|"
+        return f"{Month.join_all()}|"
 
     if (not Month.has_value(month)):
         raise ValueError(f"Invalid month: {month}")
@@ -90,7 +90,7 @@ def get_team_param_str(team: str | MlbTeam | list[str | MlbTeam]) -> str:
         return ""
 
     if (team == "all"):
-        return f"{MlbTeam.get_all()}|"
+        return f"{MlbTeam.join_all()}|"
 
     if (not MlbTeam.has_value(team)):
         raise ValueError(f"Invalid team: {team}")
