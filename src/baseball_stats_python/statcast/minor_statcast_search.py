@@ -1,12 +1,17 @@
-from ..enums.minor import MinorGameType, Level
-from ..utils.minor import get_minor_season_param_str, get_minor_game_type_param_str, get_level_param_str
-from ..enums.statcast import Month
-from ..utils.statcast import get_month_param_str
+import io
+import logging
 
 import pandas as pd
 import requests
-import io
-import logging
+
+from ..enums.minor import Level, MinorGameType
+from ..enums.statcast import Month
+from ..utils.minor import (
+    get_level_param_str,
+    get_minor_game_type_param_str,
+    get_minor_season_param_str,
+)
+from ..utils.statcast import get_month_param_str
 
 logging.basicConfig()
 logger = logging.getLogger()
@@ -17,13 +22,20 @@ session = requests.Session()
 MINOR_STATCAST_SEARCH_URL = "https://baseballsavant.mlb.com/statcast-search-minors/csv"
 
 
-def minor_statcast_search(season: str | list[str] = "2024", player_type: str = "pitcher",
-                          game_type: str | MinorGameType | list[str |
-                                                                MinorGameType] = MinorGameType.REGULAR_SEASON,
-                          start_dt: str = "", end_dt: str = "", month: str | Month | list[str | Month] = "",
-                          pitchers_lookup: str | list[str] = "", batters_lookup: str | list[str] = "",
-                          level: str | Level | list[str | Level] = "",
-                          debug: bool = False) -> pd.DataFrame:
+def minor_statcast_search(
+    season: str | list[str] = "2024",
+    player_type: str = "pitcher",
+    game_type: str
+    | MinorGameType
+    | list[str | MinorGameType] = MinorGameType.REGULAR_SEASON,
+    start_dt: str = "",
+    end_dt: str = "",
+    month: str | Month | list[str | Month] = "",
+    pitchers_lookup: str | list[str] = "",
+    batters_lookup: str | list[str] = "",
+    level: str | Level | list[str | Level] = "",
+    debug: bool = False,
+) -> pd.DataFrame:
     """
     Search for Minor League Statcast pitch-level data with custom filters.
 
@@ -54,10 +66,10 @@ def minor_statcast_search(season: str | list[str] = "2024", player_type: str = "
         "game_date_lt": end_dt,
         "hfMo": get_month_param_str(month),
         "hfLevel": get_level_param_str(level),
-        "hfFlag": "is\.\.tracked|",
+        "hfFlag": r"is\.\.tracked|",
         "chk_is..tracked": "on",
         "minors": "true",
-        "type": "details"
+        "type": "details",
     }
 
     if pitchers_lookup:
@@ -80,4 +92,5 @@ def minor_statcast_search(season: str | list[str] = "2024", player_type: str = "
         return pd.read_csv(csv_content)
     else:
         raise Exception(
-            f"Failed to fetch data: {response.status_code} - {response.text}")
+            f"Failed to fetch data: {response.status_code} - {response.text}"
+        )

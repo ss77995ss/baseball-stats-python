@@ -1,8 +1,15 @@
+from datetime import datetime
+
 import pytest
 
-from datetime import datetime
-from baseball_stats_python.utils.statcast import CURRENT_SEASON, get_season_param_str, get_game_type_param_str, get_month_param_str, get_team_param_str
-from baseball_stats_python.enums.statcast import GameType, Month, MlbTeam
+from baseball_stats_python.enums.statcast import GameType, MlbTeam, Month
+from baseball_stats_python.utils.statcast import (
+    CURRENT_SEASON,
+    get_game_type_param_str,
+    get_month_param_str,
+    get_season_param_str,
+    get_team_param_str,
+)
 
 
 def test_get_season_param_str():
@@ -32,7 +39,7 @@ def test_get_season_param_str_invalid():
 
     with pytest.raises(ValueError) as e:
         get_season_param_str(2025)
-    assert str(e.value) == f"Invalid type for season: {type(2025)}"
+    assert str(e.value) == f"Invalid type for season: {int}"
 
     with pytest.raises(ValueError) as e:
         test_season = ["2024", 2023]
@@ -45,10 +52,13 @@ def test_get_game_type_param_str():
     assert get_game_type_param_str(["R", "PO"]) == "R|PO|"
     assert get_game_type_param_str(["R", "PO", "A"]) == "R|PO|A|"
     assert get_game_type_param_str(GameType.REGULAR_SEASON) == "R|"
-    assert get_game_type_param_str(
-        [GameType.REGULAR_SEASON, GameType.PLAYOFFS]) == "R|PO|"
-    assert get_game_type_param_str(
-        ["R", GameType.PLAYOFFS, GameType.ALL_STAR]) == "R|PO|A|"
+    assert (
+        get_game_type_param_str([GameType.REGULAR_SEASON, GameType.PLAYOFFS]) == "R|PO|"
+    )
+    assert (
+        get_game_type_param_str(["R", GameType.PLAYOFFS, GameType.ALL_STAR])
+        == "R|PO|A|"
+    )
     assert get_game_type_param_str("") == "R|"
     assert get_game_type_param_str("all") == "R|PO|F|D|L|W|S|A|"
 
@@ -64,16 +74,14 @@ def test_get_game_type_param_str_invalid():
 
     with pytest.raises(ValueError) as e:
         get_game_type_param_str(Month.AUGUST)
-    assert str(
-        e.value) == f"Invalid type for game_type: {type(Month.AUGUST)}"
+    assert str(e.value) == f"Invalid type for game_type: {type(Month.AUGUST)}"
 
 
 def test_get_month_param_str():
     assert get_month_param_str("8") == "8|"
     assert get_month_param_str(["8", "9"]) == "8|9|"
     assert get_month_param_str(Month.AUGUST) == "8|"
-    assert get_month_param_str(
-        [Month.AUGUST, Month.SEPTEMBER_AND_OCTOBER]) == "8|9|"
+    assert get_month_param_str([Month.AUGUST, Month.SEPTEMBER_AND_OCTOBER]) == "8|9|"
     assert get_month_param_str("") == ""
     assert get_month_param_str("all") == "4|5|6|7|8|9|"
 
@@ -89,7 +97,7 @@ def test_get_month_param_str_invalid():
 
     with pytest.raises(ValueError) as e:
         get_month_param_str(2024)
-    assert str(e.value) == f"Invalid type for month: {type(2024)}"
+    assert str(e.value) == f"Invalid type for month: {int}"
 
 
 def test_get_team_param_str():

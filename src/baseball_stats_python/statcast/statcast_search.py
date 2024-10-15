@@ -1,10 +1,16 @@
-import requests
 import io
-import pandas as pd
 import logging
 
-from ..utils.statcast import get_season_param_str, get_game_type_param_str, get_month_param_str, get_team_param_str
-from ..enums.statcast import MlbTeam, GameType, Month
+import pandas as pd
+import requests
+
+from ..enums.statcast import GameType, MlbTeam, Month
+from ..utils.statcast import (
+    get_game_type_param_str,
+    get_month_param_str,
+    get_season_param_str,
+    get_team_param_str,
+)
 
 logging.basicConfig()
 logger = logging.getLogger("Statcast")
@@ -14,13 +20,19 @@ session = requests.Session()
 STATCAST_SEARCH_URL = "https://baseballsavant.mlb.com/statcast_search/csv"
 
 
-def statcast_search(season: str | list[str] = "2024", player_type: str = "pitcher",
-                    game_type: str | GameType | list[str |
-                                                     GameType] = GameType.REGULAR_SEASON,
-                    start_dt: str = "", end_dt: str = "", month: str | Month | list[str | Month] = "",
-                    pitchers_lookup: str | list[str] = "", batters_lookup: str | list[str] = "",
-                    team: str | MlbTeam | list[str | MlbTeam] = "", opponent: str | MlbTeam | list[str | MlbTeam] = "",
-                    debug: bool = False) -> pd.DataFrame:
+def statcast_search(
+    season: str | list[str] = "2024",
+    player_type: str = "pitcher",
+    game_type: str | GameType | list[str | GameType] = GameType.REGULAR_SEASON,
+    start_dt: str = "",
+    end_dt: str = "",
+    month: str | Month | list[str | Month] = "",
+    pitchers_lookup: str | list[str] = "",
+    batters_lookup: str | list[str] = "",
+    team: str | MlbTeam | list[str | MlbTeam] = "",
+    opponent: str | MlbTeam | list[str | MlbTeam] = "",
+    debug: bool = False,
+) -> pd.DataFrame:
     """
     Search for Statcast pitch-level data with custom filters.
 
@@ -40,7 +52,7 @@ def statcast_search(season: str | list[str] = "2024", player_type: str = "pitche
         pd.DataFrame: A DataFrame containing the Statcast pitch-level data.
     """
 
-    if (debug):
+    if debug:
         logger.setLevel(logging.DEBUG)
 
     params = {
@@ -53,7 +65,7 @@ def statcast_search(season: str | list[str] = "2024", player_type: str = "pitche
         "hfMo": get_month_param_str(month),
         "hfTeam": get_team_param_str(team),
         "hfOpponent": get_team_param_str(opponent),
-        "type": "details"
+        "type": "details",
     }
 
     if pitchers_lookup:
@@ -75,15 +87,20 @@ def statcast_search(season: str | list[str] = "2024", player_type: str = "pitche
         return pd.read_csv(csv_content)
     else:
         raise Exception(
-            f"Failed to fetch data: {response.status_code} - {response.text}")
+            f"Failed to fetch data: {response.status_code} - {response.text}"
+        )
 
 
-def statcast_pitcher_search(pitchers_lookup: str | list[str], season: str | list[str] = "2024",
-                            game_type: str | GameType | list[str |
-                                                             GameType] = GameType.REGULAR_SEASON,
-                            start_dt: str = "", end_dt: str = "", month: str | Month | list[str | Month] = "",
-                            opponent: str | MlbTeam | list[str | MlbTeam] = "",
-                            debug: bool = False) -> pd.DataFrame:
+def statcast_pitcher_search(
+    pitchers_lookup: str | list[str],
+    season: str | list[str] = "2024",
+    game_type: str | GameType | list[str | GameType] = GameType.REGULAR_SEASON,
+    start_dt: str = "",
+    end_dt: str = "",
+    month: str | Month | list[str | Month] = "",
+    opponent: str | MlbTeam | list[str | MlbTeam] = "",
+    debug: bool = False,
+) -> pd.DataFrame:
     """
     Search for Statcast pitch-level data for pitcher(s) with custom filters.
 
@@ -112,18 +129,22 @@ def statcast_pitcher_search(pitchers_lookup: str | list[str], season: str | list
         "end_dt": end_dt,
         "month": month,
         "opponent": opponent,
-        "debug": debug
+        "debug": debug,
     }
 
     return statcast_search(**params)
 
 
-def statcast_batter_search(batters_lookup: str | list[str], season: str | list[str] = "2024",
-                           game_type: str | GameType | list[str |
-                                                            GameType] = GameType.REGULAR_SEASON,
-                           start_dt: str = "", end_dt: str = "", month: str | Month | list[str | Month] = "",
-                           opponent: str | MlbTeam | list[str | MlbTeam] = "",
-                           debug: bool = False) -> pd.DataFrame:
+def statcast_batter_search(
+    batters_lookup: str | list[str],
+    season: str | list[str] = "2024",
+    game_type: str | GameType | list[str | GameType] = GameType.REGULAR_SEASON,
+    start_dt: str = "",
+    end_dt: str = "",
+    month: str | Month | list[str | Month] = "",
+    opponent: str | MlbTeam | list[str | MlbTeam] = "",
+    debug: bool = False,
+) -> pd.DataFrame:
     """
     Search for Statcast pitch-level data for batter(s) with custom filters.
 
@@ -152,7 +173,7 @@ def statcast_batter_search(batters_lookup: str | list[str], season: str | list[s
         "end_dt": end_dt,
         "month": month,
         "opponent": opponent,
-        "debug": debug
+        "debug": debug,
     }
 
     return statcast_search(**params)

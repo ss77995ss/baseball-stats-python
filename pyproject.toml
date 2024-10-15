@@ -27,3 +27,24 @@ path = "src/baseball_stats_python/__about__.py"
 
 [tool.pytest.ini_options]
 pythonpath = [".", "src"]
+
+# ruff settings from FastAPI
+[tool.ruff.lint]
+select = [
+  "E",  # pycodestyle errors
+  "F",  # pyflakes
+  "UP", # pyupgrade
+]
+extend-select = [
+  "I", # isort
+]
+
+ignore = [
+  "E501", # line too long, handled by black
+  "B008", # do not perform function calls in argument defaults
+  "C901", # too complex
+  "W191", # indentation contains tabs
+]
+
+fixable = ["ALL"]
+unfixable = ["F401"]
