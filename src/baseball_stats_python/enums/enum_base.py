@@ -7,8 +7,10 @@ class EnumBase(Enum):
 
     @classmethod
     def has_value(cls, value):
+        """Check if the value is in the enum."""
         return str(value) in cls._value2member_map_
 
     @classmethod
-    def get_all(cls):
+    def join_all(cls):
+        """Join all the values in the enum."""
         return '|'.join(cls._value2member_map_)
