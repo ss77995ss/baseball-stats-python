@@ -9,8 +9,9 @@ class MinorGameType(EnumBase):
     REGULAR_SEASON = "R",
     PLAYOFFS = "PO"
     """
-    REGULAR_SEASON = "R"
-    PLAYOFFS = "PO"
+
+    REGULAR_SEASON = 'R'
+    PLAYOFFS = 'PO'
 
 
 class Level(EnumBase):
@@ -21,5 +22,6 @@ class Level(EnumBase):
     A - Single-A\n
     AAA - Triple-A
     """
-    A = "A"
-    AAA = "AAA"
+
+    A = 'A'
+    AAA = 'AAA'

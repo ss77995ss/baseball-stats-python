@@ -48,3 +48,6 @@ ignore = [
 
 fixable = ["ALL"]
 unfixable = ["F401"]
+
+[tool.ruff.format]
+quote-style = "single"

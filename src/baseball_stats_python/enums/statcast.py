@@ -14,14 +14,15 @@ class GameType(EnumBase):
     SPRING_TRAINING = "S",
     ALL_STAR = "A"
     """
-    REGULAR_SEASON = "R"
-    PLAYOFFS = "PO"
-    WILDCARD = "F"
-    DIVISION_SERIES = "D"
-    LEAGUE_CHAMPIONSHIP = "L"
-    WORLD_SERIES = "W"
-    SPRING_TRAINING = "S"
-    ALL_STAR = "A"
+
+    REGULAR_SEASON = 'R'
+    PLAYOFFS = 'PO'
+    WILDCARD = 'F'
+    DIVISION_SERIES = 'D'
+    LEAGUE_CHAMPIONSHIP = 'L'
+    WORLD_SERIES = 'W'
+    SPRING_TRAINING = 'S'
+    ALL_STAR = 'A'
 
 
 class Month(EnumBase):
@@ -35,12 +36,13 @@ class Month(EnumBase):
     AUGUST = "8",
     SEPTEMBER_AND_OCTOBER = "9"
     """
-    MARCH_AND_APRIL = "4"
-    MAY = "5"
-    JUNE = "6"
-    JULY = "7"
-    AUGUST = "8"
-    SEPTEMBER_AND_OCTOBER = "9"
+
+    MARCH_AND_APRIL = '4'
+    MAY = '5'
+    JUNE = '6'
+    JULY = '7'
+    AUGUST = '8'
+    SEPTEMBER_AND_OCTOBER = '9'
 
 
 class MlbTeam(EnumBase):

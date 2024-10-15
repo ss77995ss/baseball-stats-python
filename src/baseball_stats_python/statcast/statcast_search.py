@@ -13,24 +13,24 @@ from ..utils.statcast import (
 )
 
 logging.basicConfig()
-logger = logging.getLogger("Statcast")
+logger = logging.getLogger('Statcast')
 
 session = requests.Session()
 
-STATCAST_SEARCH_URL = "https://baseballsavant.mlb.com/statcast_search/csv"
+STATCAST_SEARCH_URL = 'https://baseballsavant.mlb.com/statcast_search/csv'
 
 
 def statcast_search(
-    season: str | list[str] = "2024",
-    player_type: str = "pitcher",
+    season: str | list[str] = '2024',
+    player_type: str = 'pitcher',
     game_type: str | GameType | list[str | GameType] = GameType.REGULAR_SEASON,
-    start_dt: str = "",
-    end_dt: str = "",
-    month: str | Month | list[str | Month] = "",
-    pitchers_lookup: str | list[str] = "",
-    batters_lookup: str | list[str] = "",
-    team: str | MlbTeam | list[str | MlbTeam] = "",
-    opponent: str | MlbTeam | list[str | MlbTeam] = "",
+    start_dt: str = '',
+    end_dt: str = '',
+    month: str | Month | list[str | Month] = '',
+    pitchers_lookup: str | list[str] = '',
+    batters_lookup: str | list[str] = '',
+    team: str | MlbTeam | list[str | MlbTeam] = '',
+    opponent: str | MlbTeam | list[str | MlbTeam] = '',
     debug: bool = False,
 ) -> pd.DataFrame:
     """
@@ -56,49 +56,49 @@ def statcast_search(
         logger.setLevel(logging.DEBUG)
 
     params = {
-        "all": "true",
-        "player_type": player_type,
-        "hfSea": get_season_param_str(season),
-        "hfGT": get_game_type_param_str(game_type),
-        "game_date_gt": start_dt,
-        "game_date_lt": end_dt,
-        "hfMo": get_month_param_str(month),
-        "hfTeam": get_team_param_str(team),
-        "hfOpponent": get_team_param_str(opponent),
-        "type": "details",
+        'all': 'true',
+        'player_type': player_type,
+        'hfSea': get_season_param_str(season),
+        'hfGT': get_game_type_param_str(game_type),
+        'game_date_gt': start_dt,
+        'game_date_lt': end_dt,
+        'hfMo': get_month_param_str(month),
+        'hfTeam': get_team_param_str(team),
+        'hfOpponent': get_team_param_str(opponent),
+        'type': 'details',
     }
 
     if pitchers_lookup:
-        params["pitchers_lookup[]"] = pitchers_lookup
+        params['pitchers_lookup[]'] = pitchers_lookup
 
     if batters_lookup:
-        params["batters_lookup[]"] = batters_lookup
+        params['batters_lookup[]'] = batters_lookup
 
-    print("Starting Statcast Search")
-    logger.debug(f"Params: {params}")
+    print('Starting Statcast Search')
+    logger.debug(f'Params: {params}')
     response = session.get(STATCAST_SEARCH_URL, params=params)
 
     logger.debug(response.url)
 
     if response.status_code == 200:
-        print("Statcast Search Completed")
+        print('Statcast Search Completed')
         csv_content = io.StringIO(response.text)
 
         return pd.read_csv(csv_content)
     else:
         raise Exception(
-            f"Failed to fetch data: {response.status_code} - {response.text}"
+            f'Failed to fetch data: {response.status_code} - {response.text}'
         )
 
 
 def statcast_pitcher_search(
     pitchers_lookup: str | list[str],
-    season: str | list[str] = "2024",
+    season: str | list[str] = '2024',
     game_type: str | GameType | list[str | GameType] = GameType.REGULAR_SEASON,
-    start_dt: str = "",
-    end_dt: str = "",
-    month: str | Month | list[str | Month] = "",
-    opponent: str | MlbTeam | list[str | MlbTeam] = "",
+    start_dt: str = '',
+    end_dt: str = '',
+    month: str | Month | list[str | Month] = '',
+    opponent: str | MlbTeam | list[str | MlbTeam] = '',
     debug: bool = False,
 ) -> pd.DataFrame:
     """
@@ -118,18 +118,18 @@ def statcast_pitcher_search(
     """
 
     if not pitchers_lookup:
-        raise ValueError("pitchers_lookup is required")
+        raise ValueError('pitchers_lookup is required')
 
     params = {
-        "pitchers_lookup": pitchers_lookup,
-        "season": season,
-        "player_type": "pitcher",
-        "game_type": game_type,
-        "start_dt": start_dt,
-        "end_dt": end_dt,
-        "month": month,
-        "opponent": opponent,
-        "debug": debug,
+        'pitchers_lookup': pitchers_lookup,
+        'season': season,
+        'player_type': 'pitcher',
+        'game_type': game_type,
+        'start_dt': start_dt,
+        'end_dt': end_dt,
+        'month': month,
+        'opponent': opponent,
+        'debug': debug,
     }
 
     return statcast_search(**params)
@@ -137,12 +137,12 @@ def statcast_pitcher_search(
 
 def statcast_batter_search(
     batters_lookup: str | list[str],
-    season: str | list[str] = "2024",
+    season: str | list[str] = '2024',
     game_type: str | GameType | list[str | GameType] = GameType.REGULAR_SEASON,
-    start_dt: str = "",
-    end_dt: str = "",
-    month: str | Month | list[str | Month] = "",
-    opponent: str | MlbTeam | list[str | MlbTeam] = "",
+    start_dt: str = '',
+    end_dt: str = '',
+    month: str | Month | list[str | Month] = '',
+    opponent: str | MlbTeam | list[str | MlbTeam] = '',
     debug: bool = False,
 ) -> pd.DataFrame:
     """
@@ -162,18 +162,18 @@ def statcast_batter_search(
     """
 
     if not batters_lookup:
-        raise ValueError("batters_lookup is required")
+        raise ValueError('batters_lookup is required')
 
     params = {
-        "batters_lookup": batters_lookup,
-        "season": season,
-        "player_type": "batter",
-        "game_type": game_type,
-        "start_dt": start_dt,
-        "end_dt": end_dt,
-        "month": month,
-        "opponent": opponent,
-        "debug": debug,
+        'batters_lookup': batters_lookup,
+        'season': season,
+        'player_type': 'batter',
+        'game_type': game_type,
+        'start_dt': start_dt,
+        'end_dt': end_dt,
+        'month': month,
+        'opponent': opponent,
+        'debug': debug,
     }
 
     return statcast_search(**params)

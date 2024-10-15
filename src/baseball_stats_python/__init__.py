@@ -6,8 +6,8 @@ from .statcast.statcast_search import (
 )
 
 __all__ = [
-    "statcast_search",
-    "statcast_pitcher_search",
-    "statcast_batter_search",
-    "minor_statcast_search",
+    'statcast_search',
+    'statcast_pitcher_search',
+    'statcast_batter_search',
+    'minor_statcast_search',
 ]
