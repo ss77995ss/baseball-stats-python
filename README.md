@@ -6,7 +6,7 @@ A package that get baseball data from
 
 ## Overview
 
-Inspired by [baseball-stats-python](https://github.com/ss77995ss/baseball-stats-python). This pacakge is mainly focused on getting pitch-by-pitch data from Baseball Data Website like Baseball Savant and provide a easy way to get data for analytics.
+Inspired by [pybaseball](https://github.com/jldbc/pybaseball). This pacakge is mainly focused on getting pitch-by-pitch data from Baseball Data Website like Baseball Savant and provide a easy way to get data for analytics.
 
 ## Installation
 
@@ -32,7 +32,7 @@ pip install git+https://github.com/ss77995ss/baseball-stats-python.git
 
 ### statcast_search
 
-Get pitch-by-pitch data from Baseball Savant with their search parameters.
+Get pitch-by-pitch data from Baseball Savant with their search parameters. See documentation [here](src/baseball_stats_python/docs/statcast_search.md).
 
 ```python
 from baseball_stats_python import statcast_search
@@ -42,6 +42,21 @@ statcast_search(
     season="2024",
     team='LAD',
     player_type='pitcher',
+    month="7"
+)
+```
+
+### minor_statcast_search
+
+Get pitch-by-pitch data from Baseball Savant's Minor League Statcast Search with their search parameters. See documentation [here](src/baseball_stats_python/docs/minor_statcast_search.md).
+
+```python
+from baseball_stats_python import minor_statcast_search
+
+# Get all pitch data in Triple-A in July 2024
+minor_statcast_search(
+    season="2024",
+    level="AAA",
     month="7"
 )
 ```
