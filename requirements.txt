@@ -40,6 +40,7 @@ requests-cache==1.2.1
 requests-toolbelt==1.0.0
 rfc3986==2.0.0
 rich==13.9.2
+ruff==0.7.0
 six==1.16.0
 twine==5.1.1
 tzdata==2024.2
