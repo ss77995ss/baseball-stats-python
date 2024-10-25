@@ -1,6 +1,6 @@
 # Statcast Search
 
-## statcast_search
+## `statcast_search`
 
 Function to search for Statcast pitch-level data with custom filters based on Baseball Savant's [Statcast Search](https://baseballsavant.mlb.com/statcast_search).
 
@@ -49,8 +49,8 @@ statcast_search(
 | end_dt          | `str`                                          | End date (YYYY-MM-DD format)                                                                                                                                               | ""             |
 | team            | `str` or `MlbTeam` or `list[str or MlbTeam]`   | MLB team abbreviation(s) filter. Also support `all` to select all options. Can check enum [MlbTeam](../enums/statcast.py)                                                  | ""             |
 | opponent        | `str` or `MlbTeam` or `list[str or MlbTeam]`   | Opponent team abbreviation(s) filter. Also support `all` to select all options. Can check enum [MlbTeam](../enums/statcast.py)                                             | ""             |
-| pitchers_lookup | `str` or `list[str]`                           | Pitcher(s)'s mlbam_id                                                                                                                                                      | ""             |
-| batters_lookup  | `str` or `list[str]`                           | Batter(s)'s mlbam_id                                                                                                                                                       | ""             |
+| pitchers_lookup | `str` or `list[str]`                           | Pitcher(s)'s mlbam_id. Can get MLBAM ID from [mlbam_id_search](./mlbam_id_search.md)                                                                                       | ""             |
+| batters_lookup  | `str` or `list[str]`                           | Batter(s)'s mlbam_id. Can get MLBAM ID from [mlbam_id_search](./mlbam_id_search.md)                                                                                        | ""             |
 | month           | `str` or `Month` or `list[str or Month]`       | Month (`4` - `9`). `4` would be March and April and `9` would be September and October. Also support `all` to select all options. Check enum [Month](../enums/statcast.py) | ""             |
 | debug           | `bool`                                         | Whether to print debug information                                                                                                                                         | False          |
 
@@ -66,7 +66,11 @@ statcast_search(
 )
 ```
 
-## statcast_pitcher_search
+**Return**
+
+A DataFrame with columns can be found from Baseball Savant's [CSV Docs](https://baseballsavant.mlb.com/csv-docs).
+
+## `statcast_pitcher_search`
 
 Based on `statcast_search`, but only returns pitcher data.
 
@@ -90,7 +94,7 @@ statcast_pitcher_search(
 
 Same with `statcast_search` but only can use `pitchers_lookup` filter. If `pitchers_lookup` is not provided, it will throw an error.
 
-## statcast_batter_search
+## `statcast_batter_search`
 
 Based on `statcast_search`, but only returns pitches that target batter faced.
 

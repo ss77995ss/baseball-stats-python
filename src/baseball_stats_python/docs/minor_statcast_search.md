@@ -1,6 +1,6 @@
 # Minor League Statcast Search
 
-## minor_statcast_search
+## `minor_statcast_search`
 
 Function to search for Minor League Statcast pitch-level data with custom filters based on Baseball Savant's [Minor League Statcast Search](https://baseballsavant.mlb.com/statcast-search-minors).
 
@@ -46,8 +46,8 @@ minor_statcast_search(
 | start_dt        | `str`                                                    | Start date (YYYY-MM-DD format)                                                                                                                                             | ""             |
 | end_dt          | `str`                                                    | End date (YYYY-MM-DD format)                                                                                                                                               | ""             |
 | level           | `str` or `Level` or `list[str or Level]`                 | Minor League level. Currently only support `A` and `AAA`. Can check enum [Level](../enums/minor.py)                                                                        | ""             |
-| pitchers_lookup | `str` or `list[str]`                                     | Pitcher(s)'s mlbam_id                                                                                                                                                      | ""             |
-| batters_lookup  | `str` or `list[str]`                                     | Batter(s)'s mlbam_id                                                                                                                                                       | ""             |
+| pitchers_lookup | `str` or `list[str]`                                     | Pitcher(s)'s mlbam_id. Can get MLBAM ID from [mlbam_id_search](./mlbam_id_search.md)                                                                                       | ""             |
+| batters_lookup  | `str` or `list[str]`                                     | Batter(s)'s mlbam_id. Can get MLBAM ID from [mlbam_id_search](./mlbam_id_search.md)                                                                                        | ""             |
 | month           | `str`                                                    | Month (`4` - `9`). `4` would be March and April and `9` would be September and October. Also support `all` to select all options. Check enum [Month](../enums/statcast.py) | ""             |
 | debug           | `bool`                                                   | Whether to print debug information                                                                                                                                         | False          |
 
@@ -67,7 +67,11 @@ minor_statcast_search(
 )
 ```
 
-## minor_statcast_pitcher_search
+**Return**
+
+A DataFrame with columns can be found from Baseball Savant's [CSV Docs](https://baseballsavant.mlb.com/csv-docs).
+
+## `minor_statcast_pitcher_search`
 
 Based on `minor_statcast_search`, but only returns pitcher data.
 
@@ -86,7 +90,7 @@ minor_statcast_pitcher_search(
 
 Same with `minor_statcast_search` but only can use `pitchers_lookup` filter. If `pitchers_lookup` is not provided, it will throw an error.
 
-## minor_statcast_batter_search
+## `minor_statcast_batter_search`
 
 Based on `minor_statcast_search`, but only returns pitches that target batter faced.
 
