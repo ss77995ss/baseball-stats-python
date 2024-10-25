@@ -13,3 +13,6 @@ dist/
 
 # Ignore .vscode directory
 .vscode/
+
+# Ignore ruff cache
+.ruff_cache/

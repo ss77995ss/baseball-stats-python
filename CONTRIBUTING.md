@@ -48,6 +48,20 @@ git pull upstream main
 git checkout -b my-new-feature
 ```
 
+6. Start virtual environment(Recommend using [venv](https://docs.python.org/3/library/venv.html))
+
+```bash
+pip install venv
+python -m venv venv
+source venv/bin/activate
+```
+
+7. Install requirements packages
+
+```bash
+pip install -r requirements.txt
+```
+
 #### Write Your Code
 
 - Write docstrings for any new classes, functions, or modules.
