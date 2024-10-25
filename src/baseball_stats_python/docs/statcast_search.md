@@ -40,6 +40,20 @@ statcast_search(
 
 **Arguments**
 
+| Argument        | Data Type                                      | Description                                                                                                                                                                | Default        |
+| --------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| season          | `str` or `  list[str]`                         | The season(s) to search for. Also support `all` to select all options and `statcast` to select all Statcast seasons.                                                       | Current season |
+| player_type     | `str`                                          | Player type for search result. Currently only supports `pitcher` and `batter`.                                                                                             | "pitcher"      |
+| game_type       | `str` or `GameType` or `list[str or GameType]` | Game type (`R`, `PO`, `F`, `D`, `L`, `W`, `S`, `A`). Can check enum [GameType](../enums/statcast.py). Also support `all` to select all options                             | `R`            |
+| start_dt        | `str`                                          | Start date (YYYY-MM-DD format)                                                                                                                                             | ""             |
+| end_dt          | `str`                                          | End date (YYYY-MM-DD format)                                                                                                                                               | ""             |
+| team            | `str` or `MlbTeam` or `list[str or MlbTeam]`   | MLB team abbreviation(s) filter. Also support `all` to select all options. Can check enum [MlbTeam](../enums/statcast.py)                                                  | ""             |
+| opponent        | `str` or `MlbTeam` or `list[str or MlbTeam]`   | Opponent team abbreviation(s) filter. Also support `all` to select all options. Can check enum [MlbTeam](../enums/statcast.py)                                             | ""             |
+| pitchers_lookup | `str` or `list[str]`                           | Pitcher(s)'s mlbam_id                                                                                                                                                      | ""             |
+| batters_lookup  | `str` or `list[str]`                           | Batter(s)'s mlbam_id                                                                                                                                                       | ""             |
+| month           | `str` or `Month` or `list[str or Month]`       | Month (`4` - `9`). `4` would be March and April and `9` would be September and October. Also support `all` to select all options. Check enum [Month](../enums/statcast.py) | ""             |
+| debug           | `bool`                                         | Whether to print debug information                                                                                                                                         | False          |
+
 **Use Enums**
 
 ```python
@@ -73,6 +87,7 @@ statcast_pitcher_search(
 ```
 
 **Arguments**
+
 Same with `statcast_search` but only can use `pitchers_lookup` filter. If `pitchers_lookup` is not provided, it will throw an error.
 
 ## statcast_batter_search
@@ -96,4 +111,5 @@ statcast_batter_search(
 ```
 
 **Arguments**
+
 Same with `statcast_search` but only can use `batters_lookup` filter. If `batters_lookup` is not provided, it will throw an error.

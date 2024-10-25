@@ -30,7 +30,7 @@ pip install git+https://github.com/ss77995ss/baseball-stats-python.git
 
 ## Usage
 
-### statcast_search
+**statcast_search**
 
 Get pitch-by-pitch data from Baseball Savant with their search parameters. See documentation [here](src/baseball_stats_python/docs/statcast_search.md).
 
@@ -46,7 +46,7 @@ statcast_search(
 )
 ```
 
-### minor_statcast_search
+**minor_statcast_search**
 
 Get pitch-by-pitch data from Baseball Savant's Minor League Statcast Search with their search parameters. See documentation [here](src/baseball_stats_python/docs/minor_statcast_search.md).
 
