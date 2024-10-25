@@ -1,6 +1,10 @@
 """Example usage of the baseball_stats_python package."""
 
-from src.baseball_stats_python import minor_statcast_search, statcast_search
+from src.baseball_stats_python import (
+    minor_statcast_search,
+    mlbam_id_search,
+    statcast_search,
+)
 from src.baseball_stats_python.enums.minor import MinorGameType
 from src.baseball_stats_python.enums.statcast import GameType, MlbTeam, Month
 
@@ -23,5 +27,11 @@ def minor_example():
     print(df)
 
 
+def mlbam_id_example():
+    df = mlbam_id_search('Reynolds')
+    print(df)
+
+
 # example()
 # minor_example()
+# mlbam_id_example()
