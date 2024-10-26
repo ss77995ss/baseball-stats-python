@@ -10,6 +10,7 @@ dist/
 
 # Ignore virtual environment
 .venv/
+venv/
 
 # Ignore .vscode directory
 .vscode/

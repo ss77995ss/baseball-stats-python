@@ -11,6 +11,7 @@ from ..utils.statcast import (
     get_season_param_str,
     get_team_param_str,
 )
+from ..utils.utils import validate_date_range
 
 logging.basicConfig()
 logger = logging.getLogger('Statcast')
@@ -54,6 +55,9 @@ def statcast_search(
 
     if debug:
         logger.setLevel(logging.DEBUG)
+
+    if not start_dt or not end_dt:
+        validate_date_range(start_dt, end_dt)
 
     params = {
         'all': 'true',
@@ -119,6 +123,9 @@ def statcast_pitcher_search(
 
     if not pitchers_lookup:
         raise ValueError('pitchers_lookup is required')
+    
+    if not start_dt or not end_dt:
+        validate_date_range(start_dt, end_dt)
 
     params = {
         'pitchers_lookup': pitchers_lookup,
@@ -163,6 +170,9 @@ def statcast_batter_search(
 
     if not batters_lookup:
         raise ValueError('batters_lookup is required')
+    
+    if not start_dt or not end_dt:
+        validate_date_range(start_dt, end_dt)
 
     params = {
         'batters_lookup': batters_lookup,
