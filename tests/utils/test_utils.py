@@ -2,6 +2,7 @@ import pytest
 
 from baseball_stats_python.utils.utils import validate_date_range
 
+
 def test_validate_date_range():
     with pytest.raises(ValueError) as e:
         validate_date_range('2024-07-02', '2024-07-01')
