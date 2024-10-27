@@ -12,6 +12,7 @@ from ..utils.minor import (
     get_minor_season_param_str,
 )
 from ..utils.statcast import get_month_param_str
+from ..utils.utils import validate_date_range
 
 logging.basicConfig()
 logger = logging.getLogger()
@@ -56,6 +57,9 @@ def minor_statcast_search(
 
     if debug:
         logger.setLevel(logging.DEBUG)
+
+    if start_dt or end_dt:
+        validate_date_range(start_dt, end_dt)
 
     params = {
         'all': 'true',

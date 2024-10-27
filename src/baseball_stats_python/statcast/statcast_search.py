@@ -11,6 +11,7 @@ from ..utils.statcast import (
     get_season_param_str,
     get_team_param_str,
 )
+from ..utils.utils import validate_date_range
 
 logging.basicConfig()
 logger = logging.getLogger('Statcast')
@@ -54,6 +55,9 @@ def statcast_search(
 
     if debug:
         logger.setLevel(logging.DEBUG)
+
+    if start_dt or end_dt:
+        validate_date_range(start_dt, end_dt)
 
     params = {
         'all': 'true',
