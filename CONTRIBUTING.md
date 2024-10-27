@@ -52,7 +52,7 @@ git checkout -b my-new-feature
 
 ```bash
 pip install venv
-python -m venv venv
+python -m venv .venv
 source venv/bin/activate
 ```
 

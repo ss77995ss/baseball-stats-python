@@ -130,9 +130,6 @@ def minor_statcast_pitcher_search(
     if not pitchers_lookup:
         raise ValueError('pitchers_lookup is required')
 
-    if start_dt or end_dt:
-        validate_date_range(start_dt, end_dt)
-
     params = {
         'pitchers_lookup': pitchers_lookup,
         'season': season,
@@ -177,9 +174,6 @@ def minor_statcast_batter_search(
 
     if not batters_lookup:
         raise ValueError('batters_lookup is required')
-
-    if start_dt or end_dt:
-        validate_date_range(start_dt, end_dt)
 
     params = {
         'batters_lookup': batters_lookup,

@@ -1,15 +1,20 @@
 from datetime import datetime
 
 
-def validate_date_range(start_dt, end_dt):
-    date_format = "%Y-%m-%d"
-    
+def validate_date_format(dt: str) -> datetime:
+    date_format = '%Y-%m-%d'
     try:
-        start_date = datetime.strptime(start_dt, date_format)
-        end_date = datetime.strptime(end_dt, date_format)
-
-        if end_date < start_date:
-            raise ValueError("end_dt cannot be earlier than start_dt.")
-            
+        date = datetime.strptime(dt, date_format)
+        return date
     except ValueError as e:
-        raise ValueError(f"Invalid date format or range: {e}")
+        raise ValueError(e)
+
+
+def validate_date_range(start_dt: str, end_dt: str) -> None:
+    if start_dt:
+        start_date = validate_date_format(start_dt)
+    if end_dt:
+        end_date = validate_date_format(end_dt)
+
+    if start_dt and end_dt and end_date < start_date:
+        raise ValueError('end_dt cannot be earlier than start_dt.')
