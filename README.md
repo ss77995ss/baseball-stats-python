@@ -32,7 +32,7 @@ pip install git+https://github.com/ss77995ss/baseball-stats-python.git
 
 #### `statcast_search`
 
-Get pitch-by-pitch data from Baseball Savant with their search parameters. See documentation [here](src/baseball_stats_python/docs/statcast_search.md).
+Get pitch-by-pitch data from Baseball Savant with their search parameters. See documentation [here](docs/statcast_search.md).
 
 ```python
 from baseball_stats_python import statcast_search
@@ -48,7 +48,7 @@ statcast_search(
 
 #### `minor_statcast_search`
 
-Get pitch-by-pitch data from Baseball Savant's Minor League Statcast Search with their search parameters. See documentation [here](src/baseball_stats_python/docs/minor_statcast_search.md).
+Get pitch-by-pitch data from Baseball Savant's Minor League Statcast Search with their search parameters. See documentation [here](docs/minor_statcast_search.md).
 
 ```python
 from baseball_stats_python import minor_statcast_search
@@ -63,7 +63,7 @@ minor_statcast_search(
 
 #### `mlbam_id_search`
 
-Search for MLBAM ID(s) by player name. Can be used to get player ID for `statcast_batter_search` and `statcast_pitcher_search`. See documentation [here](src/baseball_stats_python/docs/mlbam_id_search.md).
+Search for MLBAM ID(s) by player name. Can be used to get player ID for `statcast_batter_search` and `statcast_pitcher_search`. See documentation [here](docs/mlbam_id_search.md).
 
 ```python
 from baseball_stats_python import (
