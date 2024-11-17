@@ -1,3 +1,4 @@
+from .statcast.catcher_throwing import catcher_throwing
 from .statcast.minor_statcast_search import (
     minor_statcast_batter_search,
     minor_statcast_pitcher_search,
@@ -18,4 +19,5 @@ __all__ = [
     'minor_statcast_pitcher_search',
     'minor_statcast_batter_search',
     'mlbam_id_search',
+    'catcher_throwing',
 ]
