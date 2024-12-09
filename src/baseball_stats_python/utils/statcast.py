@@ -1,12 +1,12 @@
+from ..constants import DEFAULT_SEASON
 from ..enums.statcast import GameType, MlbTeam, Month
 
-CURRENT_SEASON = 2024
 START_SEASON = 2008
 STATCAST_START_SEASON = 2015
 
-ALL_SEASONS = [str(year) for year in range(START_SEASON, CURRENT_SEASON + 1)]
+ALL_SEASONS = [str(year) for year in range(START_SEASON, DEFAULT_SEASON + 1)]
 STATCAST_SEASONS = [
-    str(year) for year in range(STATCAST_START_SEASON, CURRENT_SEASON + 1)
+    str(year) for year in range(STATCAST_START_SEASON, DEFAULT_SEASON + 1)
 ]
 
 
@@ -20,7 +20,7 @@ def get_season_param_str(season: str | list[str]) -> str:
         return '|'.join(season)
 
     if season == '':
-        return str(CURRENT_SEASON)
+        return str(DEFAULT_SEASON)
     if season == 'all':
         return '|'.join(ALL_SEASONS)
     if season == 'statcast':

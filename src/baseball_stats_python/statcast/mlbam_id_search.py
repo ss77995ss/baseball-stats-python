@@ -12,7 +12,7 @@ MLBAM_ID_SEARCH_URL = 'https://baseballsavant.mlb.com/player/search-all'
 
 def mlbam_id_search(player_name: str, debug: bool = False) -> pd.DataFrame:
     """
-    Search for MLBAM ID(s) by player name.
+    Search for MLBAM ID(s) by player's name.
 
     Args:
         player_name (str): The player name to search for. (Required)
