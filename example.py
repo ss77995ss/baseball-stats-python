@@ -7,6 +7,7 @@ from src.baseball_stats_python import (
 )
 from src.baseball_stats_python.enums.minor import MinorGameType
 from src.baseball_stats_python.enums.statcast import GameType, MlbTeam, Month
+from src.baseball_stats_python.statcast.catcher_throwing import catcher_throwing
 
 
 def example():
@@ -35,3 +36,6 @@ def mlbam_id_example():
 # example()
 # minor_example()
 # mlbam_id_example()
+
+df = catcher_throwing('669257', game_type=123)
+print(df)
