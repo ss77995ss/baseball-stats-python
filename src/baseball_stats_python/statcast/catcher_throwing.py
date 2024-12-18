@@ -20,8 +20,7 @@ def catcher_throwing(
 
     Args:
         catcher_id (str): The MLBAM ID of the catcher. (Required)
-        game_type (str): The game type to filter by.
-        n (str): The number of results to return.
+        game_type (str): The game type to filter by. 
         season (str): The season to filter by. The earliest season available is 2016.
 
     Returns:
