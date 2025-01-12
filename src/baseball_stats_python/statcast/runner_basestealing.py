@@ -65,7 +65,8 @@ def runner_basestealing(
 
     params = {
         'game_type': game_type,
-        'season': season,
+        'season_start': season,
+        'season_end': season,
         'n': 0,
         'pitch_hand': get_hand_param_str(pitch_hand),
         'prior_pk': get_prior_pk_param_str(prior_pk),
