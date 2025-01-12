@@ -43,8 +43,9 @@ def catcher_throwing(
         )
 
     params = {
-        'gameType': game_type,
-        'season': season,
+        'game_type': game_type,
+        'season_start': season,
+        'season_end': season,
         'n': 0,
     }
 
