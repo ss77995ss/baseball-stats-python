@@ -1,9 +1,10 @@
+from ..constants import DEFAULT_SEASON
 from ..enums.minor import Level, MinorGameType
 
-CURRENT_SEASON = 2024
 START_SEASON = 2021
 
-ALL_SEASONS = [str(year) for year in range(START_SEASON, CURRENT_SEASON + 1)]
+# TODO: Remove 2025 once Baseball Savant changes their default season
+ALL_SEASONS = [str(year) for year in range(START_SEASON, 2025 + 1)]
 
 
 def get_minor_season_param_str(season: str | list[str]) -> str:
@@ -16,7 +17,7 @@ def get_minor_season_param_str(season: str | list[str]) -> str:
         return '|'.join(season)
 
     if season == '':
-        return str(CURRENT_SEASON)
+        return str(DEFAULT_SEASON)
     if season == 'all':
         return '|'.join(ALL_SEASONS)
 

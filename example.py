@@ -32,6 +32,17 @@ def mlbam_id_example():
     print(df)
 
 
+def spring_training_example():
+    df = statcast_search(
+        season='2025',
+        start_dt='2025-02-20',
+        end_dt='2025-02-20',
+        game_type='S',
+    )
+    print(df)
+
+
 # example()
 # minor_example()
 # mlbam_id_example()
+# spring_training_example()
