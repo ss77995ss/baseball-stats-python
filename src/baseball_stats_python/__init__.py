@@ -12,16 +12,24 @@ from .statcast.statcast_search import (
     statcast_pitcher_search,
     statcast_search,
 )
+from .statcast.wbc_statcast_search import (
+    wbc_statcast_batter_search,
+    wbc_statcast_pitcher_search,
+    wbc_statcast_search,
+)
 
 __all__ = [
-    'statcast_search',
-    'statcast_pitcher_search',
-    'statcast_batter_search',
-    'minor_statcast_search',
-    'minor_statcast_pitcher_search',
-    'minor_statcast_batter_search',
-    'mlbam_id_search',
-    'catcher_throwing',
-    'runner_basestealing',
-    'runner_extra_bases_taken',
+    "statcast_search",
+    "statcast_pitcher_search",
+    "statcast_batter_search",
+    "minor_statcast_search",
+    "minor_statcast_pitcher_search",
+    "minor_statcast_batter_search",
+    "mlbam_id_search",
+    "catcher_throwing",
+    "runner_basestealing",
+    "runner_extra_bases_taken",
+    "wbc_statcast_search",
+    "wbc_statcast_pitcher_search",
+    "wbc_statcast_batter_search",
 ]
