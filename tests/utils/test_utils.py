@@ -2,7 +2,16 @@ from datetime import datetime
 
 import pytest
 
-from baseball_stats_python.utils.utils import validate_date_format, validate_date_range
+from baseball_stats_python.utils.utils import (
+    extract_text_from_html,
+    validate_date_format,
+    validate_date_range,
+)
+
+
+def test_extract_text_from_html():
+    assert extract_text_from_html('<a href="x">Mike Trout</a>') == 'Mike Trout'
+    assert extract_text_from_html('plain text') == 'plain text'
 
 
 def test_validate_date_format():
