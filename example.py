@@ -1,6 +1,8 @@
 """Example usage of the baseball_stats_python package."""
 
 from src.baseball_stats_python import (
+    fg_batting,
+    fg_pitching,
     minor_statcast_search,
     mlbam_id_search,
     statcast_search,
@@ -50,8 +52,20 @@ def wbc_example():
     print(df)
 
 
+def fg_batting_example():
+    df = fg_batting(qual="y")
+    print(df)
+
+
+def fg_pitching_example():
+    df = fg_pitching(season=2025, debug=True)
+    print(df)
+
+
 # example()
 # minor_example()
 # mlbam_id_example()
 # spring_training_example()
 # wbc_example()
+# fg_batting_example()
+# fg_pitching_example()

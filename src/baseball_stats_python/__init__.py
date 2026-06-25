@@ -1,3 +1,4 @@
+from .fangraphs.fangraphs_search import fangraphs_search, fg_batting, fg_pitching
 from .statcast.catcher_throwing import catcher_throwing
 from .statcast.minor_statcast_search import (
     minor_statcast_batter_search,
@@ -32,4 +33,7 @@ __all__ = [
     "wbc_statcast_search",
     "wbc_statcast_pitcher_search",
     "wbc_statcast_batter_search",
+    "fangraphs_search",
+    "fg_batting",
+    "fg_pitching",
 ]
