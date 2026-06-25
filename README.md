@@ -3,10 +3,11 @@
 A package that get baseball data from
 
 - [Baseball Savant](https://baseballsavant.mlb.com/)
+- [FanGraphs Leaderboard](https://www.fangraphs.com/leaders/major-league)
 
 ## Overview
 
-Inspired by [pybaseball](https://github.com/jldbc/pybaseball). This pacakge is mainly focused on getting pitch-by-pitch data from Baseball Data Website like Baseball Savant and provide a easy way to get data for analytics.
+Inspired by [pybaseball](https://github.com/jldbc/pybaseball). This pacakge is mainly focused on getting pitch-by-pitch data from Baseball Data Website like Baseball Savant and provide a easy way to get data for analytics. All credit belong to the data source's organziations.
 
 ## Installation
 
