@@ -84,6 +84,27 @@ darvish_mlbam_id = mlbam_id_search('Yu Darvish').iloc[0]['id']
 statcast_pitcher_search(pitchers_lookup=darvish_mlbam_id)
 ```
 
+#### `fangraphs_search`
+
+Get batting or pitching leaderboard data from Fangraphs' [major-league leaders API](https://www.fangraphs.com/leaders/major-league). `fg_batting` and `fg_pitching` are convenience wrappers for single-season queries. See documentation [here](docs/fangraphs_search.md).
+
+```python
+from baseball_stats_python import fangraphs_search, fg_batting, fg_pitching
+
+# Get the 2026 qualified batting leaderboard
+fg_batting(season=2026)
+
+# Get the 2026 qualified pitching leaderboard
+fg_pitching(season=2026)
+
+# Use fangraphs_search directly for multi-season or finer-grained queries
+fangraphs_search(
+    stats="bat",
+    season1=2024,
+    season=2026
+)
+```
+
 ## Contributing
 
 Welcome to open issues or pull requests to contribute to this project. Please read [CONTRIBUTING.md](https://github.com/ss77995ss/baseball-stats-python/blob/main/CONTRIBUTING.md) for more details.
