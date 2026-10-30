@@ -4,6 +4,7 @@ import logging
 import pandas as pd
 import requests
 
+from ..constants import DEFAULT_SEASON
 from ..enums.minor import Level, MinorGameType
 from ..enums.statcast import Month
 from ..utils.minor import (
@@ -24,7 +25,7 @@ MINOR_STATCAST_SEARCH_URL = 'https://baseballsavant.mlb.com/statcast-search-mino
 
 
 def minor_statcast_search(
-    season: str | list[str] = '2024',
+    season: str | list[str] = str(DEFAULT_SEASON),
     player_type: str = 'pitcher',
     game_type: str
     | MinorGameType
@@ -102,7 +103,7 @@ def minor_statcast_search(
 
 def minor_statcast_pitcher_search(
     pitchers_lookup: str | list[str],
-    season: str | list[str] = '2024',
+    season: str | list[str] = str(DEFAULT_SEASON),
     game_type: str
     | MinorGameType
     | list[str | MinorGameType] = MinorGameType.REGULAR_SEASON,
@@ -147,7 +148,7 @@ def minor_statcast_pitcher_search(
 
 def minor_statcast_batter_search(
     batters_lookup: str | list[str],
-    season: str | list[str] = '2024',
+    season: str | list[str] = str(DEFAULT_SEASON),
     game_type: str
     | MinorGameType
     | list[str | MinorGameType] = MinorGameType.REGULAR_SEASON,

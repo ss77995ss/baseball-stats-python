@@ -4,7 +4,7 @@ from datetime import datetime
 
 def extract_text_from_html(text):
     try:
-        return re.search(">(.+?)<", text).group(1)
+        return re.search('>(.+?)<', text).group(1)
     except AttributeError:
         return text
 

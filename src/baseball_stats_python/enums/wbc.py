@@ -12,7 +12,7 @@ class WbcGameType(EnumBase):
     CHAMPIONSHIP = "CW"
     """
 
-    POOL_PLAY = "F"
-    SEMI_FINALS = "CL"
-    QUARTER_FINALS = "CD"
-    CHAMPIONSHIP = "CW"
+    POOL_PLAY = 'F'
+    SEMI_FINALS = 'CL'
+    QUARTER_FINALS = 'CD'
+    CHAMPIONSHIP = 'CW'
