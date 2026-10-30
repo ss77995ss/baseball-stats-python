@@ -1,12 +1,13 @@
-from ..constants import DEFAULT_SEASON
+from ..constants import DEFAULT_SEASON, LATEST_SEASON
 from ..enums.statcast import GameType, MlbTeam, Month
 
 START_SEASON = 2008
 STATCAST_START_SEASON = 2015
 
-# TODO: Remove 2025 once Baseball Savant changes their default season
-ALL_SEASONS = [str(year) for year in range(START_SEASON, 2025 + 1)]
-STATCAST_SEASONS = [str(year) for year in range(STATCAST_START_SEASON, 2025 + 1)]
+ALL_SEASONS = [str(year) for year in range(START_SEASON, LATEST_SEASON + 1)]
+STATCAST_SEASONS = [
+    str(year) for year in range(STATCAST_START_SEASON, LATEST_SEASON + 1)
+]
 
 
 def get_season_param_str(season: str | list[str]) -> str:

@@ -1,8 +1,12 @@
-from datetime import datetime
+from datetime import date, datetime
 
 import pytest
 
-from baseball_stats_python.constants import DEFAULT_SEASON
+from baseball_stats_python.constants import (
+    DEFAULT_SEASON,
+    LATEST_SEASON,
+    get_default_season,
+)
 from baseball_stats_python.enums.statcast import GameType, MlbTeam, Month
 from baseball_stats_python.utils.statcast import (
     get_game_type_param_str,
@@ -12,10 +16,17 @@ from baseball_stats_python.utils.statcast import (
 )
 
 
+def test_get_default_season():
+    assert get_default_season(date(2027, 3, 31)) == 2026
+    assert get_default_season(date(2027, 4, 1)) == 2027
+
+
 def test_get_season_param_str():
     assert get_season_param_str('2024') == '2024'
     assert get_season_param_str(['2024', '2023']) == '2024|2023'
     assert get_season_param_str('') == str(DEFAULT_SEASON)
+    assert get_season_param_str(str(DEFAULT_SEASON)) == str(DEFAULT_SEASON)
+    assert get_season_param_str(str(LATEST_SEASON)) == str(LATEST_SEASON)
 
 
 def test_get_season_param_str_invalid():

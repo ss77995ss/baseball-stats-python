@@ -4,37 +4,38 @@ import logging
 import pandas as pd
 import requests
 
+from ..constants import DEFAULT_SEASON
 from ..utils.utils import extract_text_from_html
 
-FANGRAPHS_MAIN_URL = "https://www.fangraphs.com/api/leaders/major-league/data"
+FANGRAPHS_MAIN_URL = 'https://www.fangraphs.com/api/leaders/major-league/data'
 
 logging.basicConfig()
-logger = logging.getLogger("Fangraphs")
+logger = logging.getLogger('Fangraphs')
 
 
 def fangraphs_search(
-    stats: str = "bat",
+    stats: str = 'bat',
     age: int = 0,
-    pos: str = "all",
-    lg: str = "all",
-    qual: int | str = "y",
-    season: int = 2026,
-    season1: int = 2026,
-    start_date: str = "2026-03-01",
-    end_date: str = "2026-11-01",
+    pos: str = 'all',
+    lg: str = 'all',
+    qual: int | str = 'y',
+    season: int = DEFAULT_SEASON,
+    season1: int = DEFAULT_SEASON,
+    start_date: str = f'{DEFAULT_SEASON}-03-01',
+    end_date: str = f'{DEFAULT_SEASON}-11-01',
     month: int = 0,
-    hand: str = "",
-    team: str = "",
+    hand: str = '',
+    team: str = '',
     pageitems: int = 10000,
     pagenum: int = 1,
     ind: int = 0,
     rost: int = 0,
-    players: str = "",
+    players: str = '',
     type: int = 8,
-    postseason: str = "",
-    heatmapqual: str = "",
-    sortdir: str = "default",
-    sortstat: str = "WAR",
+    postseason: str = '',
+    heatmapqual: str = '',
+    sortdir: str = 'default',
+    sortstat: str = 'WAR',
     debug: bool = False,
 ) -> pd.DataFrame:
     """
@@ -79,31 +80,31 @@ def fangraphs_search(
         logger.setLevel(logging.DEBUG)
 
     params = {
-        "age": age,
-        "pos": pos,
-        "stats": stats,
-        "lg": lg,
-        "qual": qual,
-        "season": season,
-        "season1": season1,
-        "startdate": start_date,
-        "enddate": end_date,
-        "month": month,
-        "hand": hand,
-        "team": team,
-        "pageitems": pageitems,
-        "pagenum": pagenum,
-        "ind": ind,
-        "rost": rost,
-        "players": players,
-        "type": type,
-        "postseason": postseason,
-        "heatmapqual": heatmapqual,
-        "sortdir": sortdir,
-        "sortstat": sortstat,
+        'age': age,
+        'pos': pos,
+        'stats': stats,
+        'lg': lg,
+        'qual': qual,
+        'season': season,
+        'season1': season1,
+        'startdate': start_date,
+        'enddate': end_date,
+        'month': month,
+        'hand': hand,
+        'team': team,
+        'pageitems': pageitems,
+        'pagenum': pagenum,
+        'ind': ind,
+        'rost': rost,
+        'players': players,
+        'type': type,
+        'postseason': postseason,
+        'heatmapqual': heatmapqual,
+        'sortdir': sortdir,
+        'sortstat': sortstat,
     }
 
-    logger.debug(f"Params: {params}")
+    logger.debug(f'Params: {params}')
 
     try:
         response = requests.get(FANGRAPHS_MAIN_URL, params=params)
@@ -113,23 +114,23 @@ def fangraphs_search(
 
         response_content = response.content
         data = json.loads(response_content)
-        df = pd.DataFrame(data["data"])
+        df = pd.DataFrame(data['data'])
 
         if df.empty:
-            logger.warning("No data found")
+            logger.warning('No data found')
             return df
 
-        df["Name"] = df["Name"].apply(extract_text_from_html)
-        df["Team"] = df["Team"].apply(extract_text_from_html)
+        df['Name'] = df['Name'].apply(extract_text_from_html)
+        df['Team'] = df['Team'].apply(extract_text_from_html)
 
         return df
 
     except requests.exceptions.RequestException as e:
-        raise Exception(f"Failed to fetch data: {e}")
+        raise Exception(f'Failed to fetch data: {e}')
 
 
 def fg_batting(
-    qual: int | str = 0, season: int = 2026, debug: bool = False
+    qual: int | str = 0, season: int = DEFAULT_SEASON, debug: bool = False
 ) -> pd.DataFrame:
     """
     Get the batting leaderboard from Fangraphs.
@@ -147,12 +148,12 @@ def fg_batting(
         pd.DataFrame: The batting leaderboard, with HTML stripped from Name and Team.
     """
     return fangraphs_search(
-        stats="bat", qual=qual, season=season, season1=season, debug=debug
+        stats='bat', qual=qual, season=season, season1=season, debug=debug
     )
 
 
 def fg_pitching(
-    qual: int | str = 0, season: int = 2026, debug: bool = False
+    qual: int | str = 0, season: int = DEFAULT_SEASON, debug: bool = False
 ) -> pd.DataFrame:
     """
     Get the pitching leaderboard from Fangraphs.
@@ -170,5 +171,5 @@ def fg_pitching(
         pd.DataFrame: The pitching leaderboard, with HTML stripped from Name and Team.
     """
     return fangraphs_search(
-        stats="pit", qual=qual, season=season, season1=season, debug=debug
+        stats='pit', qual=qual, season=season, season1=season, debug=debug
     )
