@@ -4,6 +4,7 @@ import logging
 import pandas as pd
 import requests
 
+from ..utils.http_client import http_get
 from ..utils.utils import extract_text_from_html
 
 FANGRAPHS_MAIN_URL = "https://www.fangraphs.com/api/leaders/major-league/data"
@@ -106,7 +107,7 @@ def fangraphs_search(
     logger.debug(f"Params: {params}")
 
     try:
-        response = requests.get(FANGRAPHS_MAIN_URL, params=params)
+        response = http_get(FANGRAPHS_MAIN_URL, params=params)
         response.raise_for_status()
 
         logger.debug(response.url)

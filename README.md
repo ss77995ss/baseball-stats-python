@@ -106,6 +106,16 @@ fangraphs_search(
 )
 ```
 
+### Request timeouts
+
+Every request has a timeout, so a slow or unresponsive server raises an error instead of hanging. Statcast CSV searches get a longer read timeout than the other endpoints. Adjust them in seconds:
+
+```python
+from baseball_stats_python import set_request_timeout
+
+set_request_timeout(search_read=300)  # allow slower Statcast searches
+```
+
 ## Contributing
 
 Welcome to open issues or pull requests to contribute to this project. Please read [CONTRIBUTING.md](https://github.com/ss77995ss/baseball-stats-python/blob/main/CONTRIBUTING.md) for more details.
