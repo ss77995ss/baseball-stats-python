@@ -26,7 +26,7 @@ packaging==26.3
 pandas==2.2.3
 pkginfo==1.10.0
 platformdirs==4.4.0
-pluggy==1.5.0
+pluggy==1.7.0
 pre_commit==4.0.1
 Pygments==2.20.0
 pyproject_hooks==1.2.0
