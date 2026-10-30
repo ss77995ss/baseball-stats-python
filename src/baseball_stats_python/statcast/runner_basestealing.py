@@ -1,11 +1,9 @@
 import pandas as pd
-import requests
 
 from ..constants import DEFAULT_SEASON
 from ..enums.statcast_leaderboard import GameType, Hand
+from ..utils.http_client import http_get
 from ..utils.statcast_leaderboard import get_hand_param_str, get_prior_pk_param_str
-
-session = requests.Session()
 
 API_URL = (
     'https://baseballsavant.mlb.com/leaderboard/services/basestealing-running-game'
@@ -72,7 +70,7 @@ def runner_basestealing(
         'prior_pk': get_prior_pk_param_str(prior_pk),
     }
 
-    response = session.get(f'{API_URL}/{runner_id}', params=params)
+    response = http_get(f'{API_URL}/{runner_id}', params=params)
 
     if response.status_code == 200:
         result = response.json()

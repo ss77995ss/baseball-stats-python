@@ -2,9 +2,9 @@ import io
 import logging
 
 import pandas as pd
-import requests
 
 from ..enums.statcast import GameType, MlbTeam, Month
+from ..utils.http_client import http_get
 from ..utils.statcast import (
     get_game_type_param_str,
     get_month_param_str,
@@ -16,7 +16,6 @@ from ..utils.utils import validate_date_range
 logging.basicConfig()
 logger = logging.getLogger("Statcast")
 
-session = requests.Session()
 
 STATCAST_SEARCH_URL = "https://baseballsavant.mlb.com/statcast_search/csv"
 
@@ -80,7 +79,7 @@ def statcast_search(
 
     print("Starting Statcast Search")
     logger.debug(f"Params: {params}")
-    response = session.get(STATCAST_SEARCH_URL, params=params)
+    response = http_get(STATCAST_SEARCH_URL, params=params, search=True)
 
     logger.debug(response.url)
     print(response.url)

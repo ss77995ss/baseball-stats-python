@@ -2,15 +2,13 @@ import io
 import logging
 
 import pandas as pd
-import requests
 
 from ..enums.wbc import WbcGameType
+from ..utils.http_client import http_get
 from ..utils.wbc import get_wbc_game_type_param_str, get_wbc_season_param_str
 
 logging.basicConfig()
 logger = logging.getLogger()
-
-session = requests.Session()
 
 
 WBC_STATCAST_SEARCH_URL = (
@@ -60,7 +58,7 @@ def wbc_statcast_search(
     logger.debug(f"Params: {params}")
 
     print("Starting WBC Statcast Search")
-    response = session.get(WBC_STATCAST_SEARCH_URL, params=params)
+    response = http_get(WBC_STATCAST_SEARCH_URL, params=params, search=True)
 
     logger.debug(response.url)
 

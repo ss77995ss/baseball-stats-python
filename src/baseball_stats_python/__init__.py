@@ -18,6 +18,7 @@ from .statcast.wbc_statcast_search import (
     wbc_statcast_pitcher_search,
     wbc_statcast_search,
 )
+from .utils.http_client import get_request_timeout, set_request_timeout
 
 __all__ = [
     "statcast_search",
@@ -36,4 +37,6 @@ __all__ = [
     "fangraphs_search",
     "fg_batting",
     "fg_pitching",
+    "set_request_timeout",
+    "get_request_timeout",
 ]

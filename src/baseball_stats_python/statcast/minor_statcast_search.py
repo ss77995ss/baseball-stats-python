@@ -2,10 +2,10 @@ import io
 import logging
 
 import pandas as pd
-import requests
 
 from ..enums.minor import Level, MinorGameType
 from ..enums.statcast import Month
+from ..utils.http_client import http_get
 from ..utils.minor import (
     get_level_param_str,
     get_minor_game_type_param_str,
@@ -16,8 +16,6 @@ from ..utils.utils import validate_date_range
 
 logging.basicConfig()
 logger = logging.getLogger()
-
-session = requests.Session()
 
 
 MINOR_STATCAST_SEARCH_URL = 'https://baseballsavant.mlb.com/statcast-search-minors/csv'
@@ -85,7 +83,7 @@ def minor_statcast_search(
     logger.debug(f'Params: {params}')
 
     print('Starting Minor Statcast Search')
-    response = session.get(MINOR_STATCAST_SEARCH_URL, params=params)
+    response = http_get(MINOR_STATCAST_SEARCH_URL, params=params, search=True)
 
     logger.debug(response.url)
 

@@ -1,10 +1,8 @@
 import pandas as pd
-import requests
 
 from ..constants import DEFAULT_SEASON
 from ..enums.statcast_leaderboard import GameType
-
-session = requests.Session()
+from ..utils.http_client import http_get
 
 API_URL = 'https://baseballsavant.mlb.com/leaderboard/services/baserunning'
 
@@ -47,7 +45,7 @@ def runner_extra_bases_taken(
         'n': 0,
     }
 
-    response = session.get(f'{API_URL}/{runner_id}', params=params)
+    response = http_get(f'{API_URL}/{runner_id}', params=params)
 
     if response.status_code == 200:
         result = response.json()

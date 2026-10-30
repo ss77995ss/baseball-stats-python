@@ -1,11 +1,11 @@
 import logging
 
 import pandas as pd
-import requests
+
+from ..utils.http_client import http_get
 
 logger = logging.getLogger()
 
-session = requests.Session()
 
 MLBAM_ID_SEARCH_URL = 'https://baseballsavant.mlb.com/player/search-all'
 
@@ -29,7 +29,7 @@ def mlbam_id_search(player_name: str, debug: bool = False) -> pd.DataFrame:
         logger.setLevel(logging.DEBUG)
 
     print('Starting MLBAM ID Search')
-    response = session.get(MLBAM_ID_SEARCH_URL, params={'search': player_name})
+    response = http_get(MLBAM_ID_SEARCH_URL, params={'search': player_name})
 
     if response.status_code == 200:
         print('MLBAM ID Search Completed')
