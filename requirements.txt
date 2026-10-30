@@ -31,7 +31,7 @@ pre_commit==4.0.1
 Pygments==2.20.0
 pyproject_hooks==1.2.0
 pytest==9.0.3
-python-dateutil==2.9.0.post0
+python-dateutil==3.0.0
 python-discovery==1.6.1
 pytz==2024.2
 PyYAML==6.0.2
