@@ -33,7 +33,7 @@ pyproject_hooks==1.2.0
 pytest==9.0.3
 python-dateutil==2.9.0.post0
 python-discovery==1.6.1
-pytz==2024.2
+pytz==2026.5
 PyYAML==6.0.2
 readme_renderer==44.0
 requests-cache==1.2.1
