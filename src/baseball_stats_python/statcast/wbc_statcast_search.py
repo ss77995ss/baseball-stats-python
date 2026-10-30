@@ -1,14 +1,14 @@
-import io
 import logging
 
 import pandas as pd
 
 from ..enums.wbc import WbcGameType
-from ..utils.http_client import http_get
+from ..utils.fetch import fetch_csv
+from ..utils.log import enable_debug_logging
+from ..utils.seasons import SeasonInput
 from ..utils.wbc import get_wbc_game_type_param_str, get_wbc_season_param_str
 
-logging.basicConfig()
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 WBC_STATCAST_SEARCH_URL = (
@@ -17,7 +17,7 @@ WBC_STATCAST_SEARCH_URL = (
 
 
 def wbc_statcast_search(
-    season: str | list[str] = "2026",
+    season: SeasonInput = "",
     player_type: str = "pitcher",
     game_type: str | WbcGameType | list[str | WbcGameType] = "",
     pitchers_lookup: str | list[str] = "",
@@ -28,7 +28,7 @@ def wbc_statcast_search(
     Search for WBC Statcast pitch-level data with custom filters.
 
     Args:
-        season (str | list[str]): The season(s) to search for.
+        season (int | str | list[int | str]): The season(s) to search for. Defaults to the latest WBC.
         player_type (str): The type of player to search for.
         pitchers_lookup (str | list[str]): The pitcher(s) to search for.
         batters_lookup (str | list[str]): The batter(s) to search for.
@@ -38,7 +38,7 @@ def wbc_statcast_search(
     """
 
     if debug:
-        logger.setLevel(logging.DEBUG)
+        enable_debug_logging()
 
     params = {
         "all": "true",
@@ -55,27 +55,12 @@ def wbc_statcast_search(
     if batters_lookup:
         params["batters_lookup[]"] = batters_lookup
 
-    logger.debug(f"Params: {params}")
-
-    print("Starting WBC Statcast Search")
-    response = http_get(WBC_STATCAST_SEARCH_URL, params=params, search=True)
-
-    logger.debug(response.url)
-
-    if response.status_code == 200:
-        print("WBC Statcast Search Completed")
-        csv_content = io.StringIO(response.text)
-
-        return pd.read_csv(csv_content)
-    else:
-        raise Exception(
-            f"Failed to fetch data: {response.status_code} - {response.text}"
-        )
+    return fetch_csv(WBC_STATCAST_SEARCH_URL, params, source="WBC Statcast search")
 
 
 def wbc_statcast_pitcher_search(
     pitchers_lookup: str | list[str],
-    season: str | list[str] = "2026",
+    season: SeasonInput = "",
     game_type: str | WbcGameType | list[str | WbcGameType] = "",
     debug: bool = False,
 ) -> pd.DataFrame:
@@ -83,7 +68,7 @@ def wbc_statcast_pitcher_search(
     Search for WBC Statcast pitch-level data for pitcher(s) with custom filters.
     Args:
         pitchers_lookup (str | list[str]): The pitcher(s) to search for. (Required)
-        season (str | list[str]): The season(s) to search for.
+        season (int | str | list[int | str]): The season(s) to search for. Defaults to the latest WBC.
         game_type (str | WbcGameType | list[str | WbcGameType]): The game type(s) to search for.
     Returns:
         pd.DataFrame: A DataFrame containing the WBC Statcast pitch-level data for target pitcher(s).
@@ -105,7 +90,7 @@ def wbc_statcast_pitcher_search(
 
 def wbc_statcast_batter_search(
     batters_lookup: str | list[str],
-    season: str | list[str] = "2026",
+    season: SeasonInput = "",
     game_type: str | WbcGameType | list[str | WbcGameType] = "",
     debug: bool = False,
 ) -> pd.DataFrame:
@@ -113,7 +98,7 @@ def wbc_statcast_batter_search(
     Search for WBC Statcast pitch-level data for batter(s) with custom filters.
     Args:
         batters_lookup (str | list[str]): The batter(s) to search for. (Required)
-        season (str | list[str]): The season(s) to search for.
+        season (int | str | list[int | str]): The season(s) to search for. Defaults to the latest WBC.
         game_type (str | WbcGameType | list[str | WbcGameType]): The game type(s) to search for.
     Returns:
         pd.DataFrame: A DataFrame containing the WBC Statcast pitch-level data for target batter(s).

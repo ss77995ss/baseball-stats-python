@@ -1,28 +1,17 @@
-from ..constants import DEFAULT_SEASON
 from ..enums.wbc import WbcGameType
+from .seasons import SeasonInput, build_season_param
 
-# TODO: Remove 2025 once Baseball Savant changes their default season
+# The WBC is not played every year; add new editions here.
 ALL_SEASONS = ["2023", "2026"]
 
 
-def get_wbc_season_param_str(season: str | list[str]) -> str:
-    if not isinstance(season, str) and not isinstance(season, list):
-        raise ValueError(f"Invalid type for season: {type(season)}")
-
-    if isinstance(season, list):
-        if any(season not in ALL_SEASONS for season in season):
-            raise ValueError(f"Invalid seasons: {season}")
-        return "|".join(season)
-
-    if season == "":
-        return str(DEFAULT_SEASON)
-    if season == "all":
-        return "|".join(ALL_SEASONS)
-
-    if season not in ALL_SEASONS:
-        raise ValueError(f"Invalid season: {season}")
-
-    return season
+def get_wbc_season_param_str(season: SeasonInput) -> str:
+    return build_season_param(
+        season,
+        ALL_SEASONS,
+        aliases={"all": ALL_SEASONS},
+        default=ALL_SEASONS[-1],
+    )
 
 
 def get_wbc_game_type_param_str(

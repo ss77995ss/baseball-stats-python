@@ -2,7 +2,7 @@ import pandas as pd
 
 from ..constants import DEFAULT_SEASON
 from ..enums.statcast_leaderboard import GameType
-from ..utils.http_client import http_get
+from ..utils.fetch import fetch_json
 
 API_URL = 'https://baseballsavant.mlb.com/leaderboard/services/baserunning'
 
@@ -10,7 +10,7 @@ API_URL = 'https://baseballsavant.mlb.com/leaderboard/services/baserunning'
 def runner_extra_bases_taken(
     runner_id: str,
     game_type: str | GameType = GameType.REGULAR_SEASON,
-    season: str = str(DEFAULT_SEASON),
+    season: int | str = DEFAULT_SEASON,
 ) -> pd.DataFrame:
     """
     Get extra base taken data from each advanced opportunity for a specific runner.
@@ -19,7 +19,7 @@ def runner_extra_bases_taken(
     Args:
         runner_id (str): The MLBAM ID of the runner. (Required)
         game_type (str | GameType): The game type to filter by. Default is "Regular".
-        season (str): The season to filter by. The earliest season available is 2016.
+        season (int | str): The season to filter by. The earliest season available is 2016.
     Returns:
         pd.DataFrame: A DataFrame containing the baserunning data.
     """
@@ -45,13 +45,6 @@ def runner_extra_bases_taken(
         'n': 0,
     }
 
-    response = http_get(f'{API_URL}/{runner_id}', params=params)
-
-    if response.status_code == 200:
-        result = response.json()
-        df = pd.DataFrame(result['data'])
-        return df
-    else:
-        raise Exception(
-            f'Failed to fetch data: {response.status_code} - {response.text}'
-        )
+    result = fetch_json(f'{API_URL}/{runner_id}', params, source='Runner extra bases taken')
+    df = pd.DataFrame(result['data'])
+    return df

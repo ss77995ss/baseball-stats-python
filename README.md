@@ -116,6 +116,29 @@ from baseball_stats_python import set_request_timeout
 set_request_timeout(search_read=300)  # allow slower Statcast searches
 ```
 
+### Errors and logging
+
+Failed requests raise `RequestError` (with `status_code` and `url`); a source that does not answer in time raises `RequestTimeoutError`. Both inherit from `BaseballStatsError`, so one `except` catches everything the package raises on purpose. Invalid arguments still raise `ValueError`.
+
+```python
+from baseball_stats_python import RequestTimeoutError, statcast_search
+
+try:
+    df = statcast_search(season=2025)
+except RequestTimeoutError:
+    df = statcast_search(season=2025, start_dt="2025-04-01", end_dt="2025-04-30")
+```
+
+The package logs instead of printing. To see progress messages:
+
+```python
+import logging
+
+logging.basicConfig(level=logging.INFO)
+```
+
+Pass `debug=True` to any function to print request details for this package only.
+
 ## Contributing
 
 Welcome to open issues or pull requests to contribute to this project. Please read [CONTRIBUTING.md](https://github.com/ss77995ss/baseball-stats-python/blob/main/CONTRIBUTING.md) for more details.

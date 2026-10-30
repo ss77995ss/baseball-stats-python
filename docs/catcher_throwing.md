@@ -25,7 +25,7 @@ catcher_throwing('669257', game_type=GameType.PLAYOFFS)
 | --------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | catcher_id (Required) | `str`               | The MLBAM ID of the catcher.                                                                                                                                  |
 | game_type             | `str` or `GameType` | The game type to filter by. Can be `R` for regular season, `PO` for playoffs, or `All` for all games. Check enum [GameType](../enums/statcast_leaderboard.py) |
-| season                | `str`               | The season to filter by. The earliest season available is 2016.                                                                                               |
+| season                | `int`/`str`           | The season to filter by. The earliest season available is 2016.                                                                                               |
 
 **Return**
 

@@ -1,10 +1,12 @@
-import io
 import logging
 
 import pandas as pd
 
+from ..constants import DEFAULT_SEASON
 from ..enums.statcast import GameType, MlbTeam, Month
-from ..utils.http_client import http_get
+from ..utils.fetch import fetch_csv
+from ..utils.log import enable_debug_logging
+from ..utils.seasons import SeasonInput
 from ..utils.statcast import (
     get_game_type_param_str,
     get_month_param_str,
@@ -13,15 +15,14 @@ from ..utils.statcast import (
 )
 from ..utils.utils import validate_date_range
 
-logging.basicConfig()
-logger = logging.getLogger("Statcast")
+logger = logging.getLogger(__name__)
 
 
 STATCAST_SEARCH_URL = "https://baseballsavant.mlb.com/statcast_search/csv"
 
 
 def statcast_search(
-    season: str | list[str] = "2024",
+    season: SeasonInput = DEFAULT_SEASON,
     player_type: str = "pitcher",
     game_type: str | GameType | list[str | GameType] = GameType.REGULAR_SEASON,
     start_dt: str = "",
@@ -37,7 +38,7 @@ def statcast_search(
     Search for Statcast pitch-level data with custom filters.
 
     Args:
-        season (str | list[str]): The season(s) to search for.
+        season (int | str | list[int | str]): The season(s) to search for. Defaults to the current season.
         player_type (str): The type of player to search for.
         game_type (str | GameType | list[str | GameType]): The game type(s) to search for.
         start_dt (str): The start date in 'YYYY-MM-DD' format.
@@ -53,7 +54,7 @@ def statcast_search(
     """
 
     if debug:
-        logger.setLevel(logging.DEBUG)
+        enable_debug_logging()
 
     if start_dt or end_dt:
         validate_date_range(start_dt, end_dt)
@@ -77,27 +78,12 @@ def statcast_search(
     if batters_lookup:
         params["batters_lookup[]"] = batters_lookup
 
-    print("Starting Statcast Search")
-    logger.debug(f"Params: {params}")
-    response = http_get(STATCAST_SEARCH_URL, params=params, search=True)
-
-    logger.debug(response.url)
-    print(response.url)
-
-    if response.status_code == 200:
-        print("Statcast Search Completed")
-        csv_content = io.StringIO(response.text)
-
-        return pd.read_csv(csv_content)
-    else:
-        raise Exception(
-            f"Failed to fetch data: {response.status_code} - {response.text}"
-        )
+    return fetch_csv(STATCAST_SEARCH_URL, params, source="Statcast search")
 
 
 def statcast_pitcher_search(
     pitchers_lookup: str | list[str],
-    season: str | list[str] = "2024",
+    season: SeasonInput = DEFAULT_SEASON,
     game_type: str | GameType | list[str | GameType] = GameType.REGULAR_SEASON,
     start_dt: str = "",
     end_dt: str = "",
@@ -110,7 +96,7 @@ def statcast_pitcher_search(
 
     Args:
         pitchers_lookup (str | list[str]): The pitcher(s) to search for. (Required)
-        season (str | list[str]): The season(s) to search for.
+        season (int | str | list[int | str]): The season(s) to search for. Defaults to the current season.
         game_type (str | GameType | list[str | GameType]): The game type(s) to search for.
         start_dt (str): The start date in 'YYYY-MM-DD' format.
         end_dt (str): The end date in 'YYYY-MM-DD' format.
@@ -141,7 +127,7 @@ def statcast_pitcher_search(
 
 def statcast_batter_search(
     batters_lookup: str | list[str],
-    season: str | list[str] = "2024",
+    season: SeasonInput = DEFAULT_SEASON,
     game_type: str | GameType | list[str | GameType] = GameType.REGULAR_SEASON,
     start_dt: str = "",
     end_dt: str = "",
@@ -154,7 +140,7 @@ def statcast_batter_search(
 
     Args:
         batters_lookup (str | list[str]): The batter(s) to search for. (Required)
-        season (str | list[str]): The season(s) to search for.
+        season (int | str | list[int | str]): The season(s) to search for. Defaults to the current season.
         game_type (str | GameType | list[str | GameType]): The game type(s) to search for.
         start_dt (str): The start date in 'YYYY-MM-DD' format.
         end_dt (str): The end date in 'YYYY-MM-DD' format.

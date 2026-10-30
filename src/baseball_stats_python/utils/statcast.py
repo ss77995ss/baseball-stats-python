@@ -1,34 +1,19 @@
-from ..constants import DEFAULT_SEASON
 from ..enums.statcast import GameType, MlbTeam, Month
+from .seasons import SeasonInput, build_season_param, seasons_between
 
 START_SEASON = 2008
 STATCAST_START_SEASON = 2015
 
-# TODO: Remove 2025 once Baseball Savant changes their default season
-ALL_SEASONS = [str(year) for year in range(START_SEASON, 2025 + 1)]
-STATCAST_SEASONS = [str(year) for year in range(STATCAST_START_SEASON, 2025 + 1)]
+ALL_SEASONS = seasons_between(START_SEASON)
+STATCAST_SEASONS = seasons_between(STATCAST_START_SEASON)
 
 
-def get_season_param_str(season: str | list[str]) -> str:
-    if not isinstance(season, str) and not isinstance(season, list):
-        raise ValueError(f'Invalid type for season: {type(season)}')
-
-    if isinstance(season, list):
-        if any(season not in ALL_SEASONS for season in season):
-            raise ValueError(f'Invalid seasons: {season}')
-        return '|'.join(season)
-
-    if season == '':
-        return str(DEFAULT_SEASON)
-    if season == 'all':
-        return '|'.join(ALL_SEASONS)
-    if season == 'statcast':
-        return '|'.join(STATCAST_SEASONS)
-
-    if season not in ALL_SEASONS:
-        raise ValueError(f'Invalid season: {season}')
-
-    return season
+def get_season_param_str(season: SeasonInput) -> str:
+    return build_season_param(
+        season,
+        ALL_SEASONS,
+        aliases={'all': ALL_SEASONS, 'statcast': STATCAST_SEASONS},
+    )
 
 
 def get_game_type_param_str(game_type: str | GameType | list[str | GameType]) -> str:

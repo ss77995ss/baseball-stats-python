@@ -2,7 +2,7 @@ import pandas as pd
 
 from ..constants import DEFAULT_SEASON
 from ..enums.statcast_leaderboard import GameType
-from ..utils.http_client import http_get
+from ..utils.fetch import fetch_json
 
 API_URL = 'https://baseballsavant.mlb.com/leaderboard/services/catcher-throwing'
 
@@ -10,7 +10,7 @@ API_URL = 'https://baseballsavant.mlb.com/leaderboard/services/catcher-throwing'
 def catcher_throwing(
     catcher_id: str,
     game_type: str | GameType = GameType.REGULAR_SEASON,
-    season: str = str(DEFAULT_SEASON),
+    season: int | str = DEFAULT_SEASON,
 ) -> pd.DataFrame:
     """
     Get catcher throwing data from each stolen base attempt for a specific catcher.
@@ -20,7 +20,7 @@ def catcher_throwing(
         catcher_id (str): The MLBAM ID of the catcher. (Required)
         game_type (str): The game type to filter by.
         n (str): The number of results to return.
-        season (str): The season to filter by. The earliest season available is 2016.
+        season (int | str): The season to filter by. The earliest season available is 2016.
 
     Returns:
         pd.DataFrame: A DataFrame containing the catcher throwing data.
@@ -47,12 +47,5 @@ def catcher_throwing(
         'n': 0,
     }
 
-    response = http_get(f'{API_URL}/{catcher_id}', params=params)
-
-    if response.status_code == 200:
-        result = response.json()
-        return pd.DataFrame(result['data'])
-    else:
-        raise Exception(
-            f'Failed to fetch data: {response.status_code} - {response.text}'
-        )
+    result = fetch_json(f'{API_URL}/{catcher_id}', params, source='Catcher throwing')
+    return pd.DataFrame(result['data'])

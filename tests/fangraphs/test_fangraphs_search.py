@@ -1,61 +1,41 @@
-import json
-
 import pandas as pd
 import pytest
 import requests
 
-from baseball_stats_python.fangraphs.fangraphs_search import fg_batting, fg_pitching
+from baseball_stats_python.errors import RequestError
+from baseball_stats_python.fangraphs.fangraphs_search import (
+    fangraphs_search,
+    fg_batting,
+    fg_pitching,
+)
 
 
-def make_fake_get(captured, data):
-    def fake_get(url, params=None):
-        captured["params"] = params
-
-        class FakeResponse:
-            content = json.dumps({"data": data}).encode()
-            url = "https://fake"
-
-            def raise_for_status(self):
-                pass
-
-        return FakeResponse()
-
-    return fake_get
-
-
-def test_fg_batting_cleans_html_and_sends_bat_stats(monkeypatch):
-    captured = {}
-    monkeypatch.setattr(
-        requests,
-        "get",
-        make_fake_get(captured, [{"Name": '<a href="x">Mike Trout</a>', "Team": "<a>LAA</a>"}]),
+def test_fg_batting_cleans_html_and_sends_bat_stats(fake_get):
+    fake_get.respond_json(
+        {'data': [{'Name': '<a href="x">Mike Trout</a>', 'Team': '<a>LAA</a>'}]}
     )
 
     df = fg_batting()
 
     assert isinstance(df, pd.DataFrame)
-    assert df["Name"].iloc[0] == "Mike Trout"
-    assert df["Team"].iloc[0] == "LAA"
-    assert captured["params"]["stats"] == "bat"
+    assert df['Name'].iloc[0] == 'Mike Trout'
+    assert df['Team'].iloc[0] == 'LAA'
+    assert fake_get.calls[0]['params']['stats'] == 'bat'
 
 
-def test_fg_pitching_sends_pit_stats(monkeypatch):
-    captured = {}
-    monkeypatch.setattr(
-        requests,
-        "get",
-        make_fake_get(captured, [{"Name": '<a href="x">Gerrit Cole</a>', "Team": "<a>NYY</a>"}]),
+def test_fg_pitching_sends_pit_stats(fake_get):
+    fake_get.respond_json(
+        {'data': [{'Name': '<a href="x">Gerrit Cole</a>', 'Team': '<a>NYY</a>'}]}
     )
 
     df = fg_pitching()
 
-    assert df["Name"].iloc[0] == "Gerrit Cole"
-    assert captured["params"]["stats"] == "pit"
+    assert df['Name'].iloc[0] == 'Gerrit Cole'
+    assert fake_get.calls[0]['params']['stats'] == 'pit'
 
 
-def test_fg_search_returns_empty_dataframe(monkeypatch):
-    captured = {}
-    monkeypatch.setattr(requests, "get", make_fake_get(captured, []))
+def test_fg_search_returns_empty_dataframe(fake_get):
+    fake_get.respond_json({'data': []})
 
     df = fg_batting()
 
@@ -63,12 +43,20 @@ def test_fg_search_returns_empty_dataframe(monkeypatch):
     assert df.empty
 
 
-def test_fg_search_wraps_request_exception(monkeypatch):
-    def boom(url, params=None):
-        raise requests.exceptions.RequestException("network down")
+def test_fg_search_dates_follow_season(fake_get):
+    fake_get.respond_json({'data': []})
 
-    monkeypatch.setattr(requests, "get", boom)
+    fangraphs_search(season=2024)
 
-    with pytest.raises(Exception) as e:
+    params = fake_get.calls[0]['params']
+    assert params['season1'] == 2024
+    assert params['startdate'] == '2024-03-01'
+    assert params['enddate'] == '2024-11-01'
+
+
+def test_fg_search_wraps_request_exception(fake_get):
+    fake_get.exc = requests.exceptions.RequestException('network down')
+
+    with pytest.raises(RequestError) as e:
         fg_batting()
-    assert str(e.value).startswith("Failed to fetch data:")
+    assert str(e.value).startswith('Failed to fetch data:')

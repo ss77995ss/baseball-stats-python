@@ -2,20 +2,24 @@ import logging
 
 import pandas as pd
 
-from ..utils.http_client import http_get
+from ..utils.fetch import fetch_json
+from ..utils.log import enable_debug_logging
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 MLBAM_ID_SEARCH_URL = 'https://baseballsavant.mlb.com/player/search-all'
 
 
-def mlbam_id_search(player_name: str, debug: bool = False) -> pd.DataFrame:
+def mlbam_id_search(
+    player_name: str, limit: int | None = 10, debug: bool = False
+) -> pd.DataFrame:
     """
     Search for MLBAM ID(s) by player's name.
 
     Args:
         player_name (str): The player name to search for. (Required)
+        limit (int | None): Return at most this many of the most relevant results. None returns all.
         debug (bool): Whether to print debug information.
 
     Returns:
@@ -26,25 +30,20 @@ def mlbam_id_search(player_name: str, debug: bool = False) -> pd.DataFrame:
         raise ValueError('player_name is required')
 
     if debug:
-        logger.setLevel(logging.DEBUG)
+        enable_debug_logging()
 
-    print('Starting MLBAM ID Search')
-    response = http_get(MLBAM_ID_SEARCH_URL, params={'search': player_name})
-
-    if response.status_code == 200:
-        print('MLBAM ID Search Completed')
-        result = pd.DataFrame(response.json())
-
-        logger.debug(result)
-
-        if len(result) > 10:
-            print('Only showing first 10 most relevant results')
-
-            return result.head(10)
-        else:
-            return result
-
-    else:
-        raise Exception(
-            f'Failed to fetch data: {response.status_code} - {response.text}'
+    result = pd.DataFrame(
+        fetch_json(
+            MLBAM_ID_SEARCH_URL,
+            {'search': player_name},
+            source='MLBAM ID search',
         )
+    )
+    logger.debug(result)
+
+    if limit is not None and len(result) > limit:
+        logger.info(
+            'Showing the %d most relevant of %d results', limit, len(result)
+        )
+        return result.head(limit)
+    return result

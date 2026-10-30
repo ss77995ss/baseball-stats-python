@@ -50,8 +50,8 @@ fangraphs_search(
 | qual        | `int` or `str` | Plate-appearance/innings qualifier. `y` for the qualified threshold, an integer for a custom minimum, or `0` for no minimum. | "y"            |
 | season      | `int`          | End season of the range to query.                                                                     | Current season |
 | season1     | `int`          | Start season of the range. Equals `season` for a single season.                                       | Current season |
-| start_date  | `str`          | Range start date in `YYYY-MM-DD` format (set `month=1000` to activate this filter).                   | "2026-03-01"   |
-| end_date    | `str`          | Range end date in `YYYY-MM-DD` format (set `month=1000` to activate this filter).                     | "2026-11-01"   |
+| start_date  | `str`          | Range start date in `YYYY-MM-DD` format (set `month=1000` to activate this filter).                   | March 1 of `season1` |
+| end_date    | `str`          | Range end date in `YYYY-MM-DD` format (set `month=1000` to activate this filter).                     | November 1 of `season` |
 | month       | `int`          | Split by calendar month/period. `0` means full season. `1000` means use `start_date`/`end_date`.      | 0              |
 | hand        | `str`          | Batter/pitcher handedness filter — `R`, `L`, or `""` for both.                                        | ""             |
 | team        | `str`          | Team filter by Fangraphs team id; `""` means all teams.                                               | ""             |

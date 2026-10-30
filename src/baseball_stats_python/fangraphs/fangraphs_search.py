@@ -1,16 +1,15 @@
-import json
 import logging
 
 import pandas as pd
-import requests
 
-from ..utils.http_client import http_get
+from ..constants import DEFAULT_SEASON
+from ..utils.fetch import fetch_json
+from ..utils.log import enable_debug_logging
 from ..utils.utils import extract_text_from_html
 
 FANGRAPHS_MAIN_URL = "https://www.fangraphs.com/api/leaders/major-league/data"
 
-logging.basicConfig()
-logger = logging.getLogger("Fangraphs")
+logger = logging.getLogger(__name__)
 
 
 def fangraphs_search(
@@ -19,10 +18,10 @@ def fangraphs_search(
     pos: str = "all",
     lg: str = "all",
     qual: int | str = "y",
-    season: int = 2026,
-    season1: int = 2026,
-    start_date: str = "2026-03-01",
-    end_date: str = "2026-11-01",
+    season: int = DEFAULT_SEASON,
+    season1: int | None = None,
+    start_date: str = "",
+    end_date: str = "",
     month: int = 0,
     hand: str = "",
     team: str = "",
@@ -53,10 +52,12 @@ def fangraphs_search(
         lg (str): League filter — "all", "al", or "nl".
         qual (int | str): Plate-appearance/innings qualifier. "y" for the qualified
             threshold, or an integer for a custom minimum; 0 means no minimum.
-        season (int): End season of the range to query.
-        season1 (int): Start season of the range. Equals `season` for a single season.
+        season (int): End season of the range to query. Defaults to the current season.
+        season1 (int | None): Start season of the range. Defaults to `season` (a single season).
         start_date (str): Range start date in "YYYY-MM-DD" format (should set month to 1000 to activate this filter).
+            Defaults to March 1 of `season1`.
         end_date (str): Range end date in "YYYY-MM-DD" format (should set month to 1000 to activate this filter).
+            Defaults to November 1 of `season`.
         month (int): Split by calendar month/period. 0 means full season. 1000 means use start_date and end_date to filter by date.
         hand (str): Batter/pitcher handedness filter — "R", "L", or "" for both.
         team (str): Team filter by Fangraphs team id; "" means all teams.
@@ -77,7 +78,12 @@ def fangraphs_search(
         columns. An empty DataFrame is returned when the API has no matching data.
     """
     if debug:
-        logger.setLevel(logging.DEBUG)
+        enable_debug_logging()
+
+    if season1 is None:
+        season1 = season
+    start_date = start_date or f"{season1}-03-01"
+    end_date = end_date or f"{season}-11-01"
 
     params = {
         "age": age,
@@ -104,33 +110,21 @@ def fangraphs_search(
         "sortstat": sortstat,
     }
 
-    logger.debug(f"Params: {params}")
+    data = fetch_json(FANGRAPHS_MAIN_URL, params, source="FanGraphs leaderboard")
+    df = pd.DataFrame(data["data"])
 
-    try:
-        response = http_get(FANGRAPHS_MAIN_URL, params=params)
-        response.raise_for_status()
-
-        logger.debug(response.url)
-
-        response_content = response.content
-        data = json.loads(response_content)
-        df = pd.DataFrame(data["data"])
-
-        if df.empty:
-            logger.warning("No data found")
-            return df
-
-        df["Name"] = df["Name"].apply(extract_text_from_html)
-        df["Team"] = df["Team"].apply(extract_text_from_html)
-
+    if df.empty:
+        logger.warning("No data found")
         return df
 
-    except requests.exceptions.RequestException as e:
-        raise Exception(f"Failed to fetch data: {e}")
+    df["Name"] = df["Name"].apply(extract_text_from_html)
+    df["Team"] = df["Team"].apply(extract_text_from_html)
+
+    return df
 
 
 def fg_batting(
-    qual: int | str = 0, season: int = 2026, debug: bool = False
+    qual: int | str = 0, season: int = DEFAULT_SEASON, debug: bool = False
 ) -> pd.DataFrame:
     """
     Get the batting leaderboard from Fangraphs.
@@ -153,7 +147,7 @@ def fg_batting(
 
 
 def fg_pitching(
-    qual: int | str = 0, season: int = 2026, debug: bool = False
+    qual: int | str = 0, season: int = DEFAULT_SEASON, debug: bool = False
 ) -> pd.DataFrame:
     """
     Get the pitching leaderboard from Fangraphs.

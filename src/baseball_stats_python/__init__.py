@@ -1,3 +1,4 @@
+from .errors import BaseballStatsError, RequestError, RequestTimeoutError
 from .fangraphs.fangraphs_search import fangraphs_search, fg_batting, fg_pitching
 from .statcast.catcher_throwing import catcher_throwing
 from .statcast.minor_statcast_search import (
@@ -18,6 +19,7 @@ from .statcast.wbc_statcast_search import (
     wbc_statcast_pitcher_search,
     wbc_statcast_search,
 )
+from .utils import log as _log  # noqa: F401  (attaches the NullHandler)
 from .utils.http_client import get_request_timeout, set_request_timeout
 
 __all__ = [
@@ -39,4 +41,7 @@ __all__ = [
     "fg_pitching",
     "set_request_timeout",
     "get_request_timeout",
+    "BaseballStatsError",
+    "RequestError",
+    "RequestTimeoutError",
 ]

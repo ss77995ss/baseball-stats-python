@@ -38,11 +38,11 @@ def test_get_season_param_str_invalid():
     assert str(e.value) == f'Invalid seasons: {test_season}'
 
     with pytest.raises(ValueError) as e:
-        get_season_param_str(2025)
-    assert str(e.value) == f'Invalid type for season: {int}'
+        get_season_param_str(2025.0)
+    assert str(e.value) == f'Invalid type for season: {float}'
 
     with pytest.raises(ValueError) as e:
-        test_season = ['2024', 2023]
+        test_season = ['2024', 2007]
         get_season_param_str(test_season)
     assert str(e.value) == f'Invalid seasons: {test_season}'
 
